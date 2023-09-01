@@ -26,6 +26,7 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
         initComponents();
         conexao = ModuloConexao.conector();
         this.pesquisa_avancada();
+        this.populacmbTipoCel();
 
         DefaultTableModel modelo = (DefaultTableModel) tblPastor.getModel();
         tblPastor.setRowSorter(new TableRowSorter(modelo));
@@ -35,7 +36,7 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
         DateFormat formatador = DateFormat.getDateInstance(DateFormat.SHORT);
         lblData.setText(formatador.format(data));
         lblData.setForeground(Color.red);
-        
+
         Calendar calendarData = Calendar.getInstance();
         int numeroDiasParaSubtrair = 0;
         calendarData.add(Calendar.DATE, numeroDiasParaSubtrair);
@@ -43,14 +44,26 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         lblDataFormatada.setText(format.format(dataInicial));
 
-       
-        
-       
+    }
+
+    private void populacmbTipoCel() {
+
+        String sql = "select distinct tipo_cel_rede from tbl_redes";
+
+        try {
+            pst = conexao.prepareStatement(sql);
+            rs = pst.executeQuery();
+            while (rs.next()) {
+
+                cmbTipoCel.addItem(rs.getString("tipo_cel_rede"));
+            }
+        } catch (Exception e) {
+        }
 
     }
 
     private void pesquisa_avancada() {
-        String sql = "select id_rede as ID, superv_rede as Supervisor, cor_rede as Cor_Rede, pr_rede as Rede, distrito_rede as Distrito, area_rede as Area, setor_rede as Setor, lider_cel_rede as Lider, cod_lider_rede as Cod_Lider from tbl_redes where lider_cel_rede like ?";
+        String sql = "select id_rede as ID, superv_rede as Supervisor, cor_rede as Cor_Rede, pr_rede as Rede, distrito_rede as Distrito, area_rede as Area, setor_rede as Setor, lider_cel_rede as Lider, cod_lider_rede as Cod_Lider, data_rede as Data, tipo_cel_rede as Tipo from tbl_redes where lider_cel_rede like ?";
 
         try {
             pst = conexao.prepareStatement(sql);
@@ -75,6 +88,7 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
         txtSetor.setText(tblPastor.getModel().getValueAt(setar, 6).toString());
         txtLider.setText(tblPastor.getModel().getValueAt(setar, 7).toString());
         txtIdLider.setText(tblPastor.getModel().getValueAt(setar, 8).toString());
+        cmbTipoCel.addItem(tblPastor.getModel().getValueAt(setar, 10).toString());
 
     }
 
@@ -93,7 +107,7 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
     }
 
     private void adicionar() {
-        String sql = "insert into tbl_redes ( superv_rede, cor_rede , pr_rede, distrito_rede, area_rede, setor_rede,lider_cel_rede, cod_lider_rede, data_rede) values (?,?,?,?,?,?,?,?,?) ";
+        String sql = "insert into tbl_redes ( superv_rede, cor_rede , pr_rede, distrito_rede, area_rede, setor_rede,lider_cel_rede, cod_lider_rede, data_rede, tipo_cel_rede) values (?,?,?,?,?,?,?,?,?,?) ";
         try {
 
             pst = conexao.prepareStatement(sql);
@@ -107,6 +121,7 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
             pst.setString(7, txtLider.getText().toUpperCase());
             pst.setString(8, txtIdLider.getText().toUpperCase());
             pst.setString(9, lblDataFormatada.getText());
+            pst.setString(10, cmbTipoCel.getSelectedItem().toString());
             if ((txtSupRede.getText().isEmpty() || txtCorRede.getText().isEmpty() || txtPrRede.getText().isEmpty() || txtDistrito.getText().isEmpty()
                     || txtArea.getText().isEmpty() || txtSetor.getText().isEmpty() || txtLider.getText().isEmpty() || txtIdLider.getText().isEmpty())) {
 
@@ -136,7 +151,7 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
     }
 
     private void auterar() {
-        String sql = "update  tbl_redes set superv_rede=?, cor_rede=? , pr_rede=?, distrito_rede=?, area_rede=?, setor_rede=?,lider_cel_rede=?, cod_lider_rede=? where id_rede=?";
+        String sql = "update  tbl_redes set superv_rede=?, cor_rede=? , pr_rede=?, distrito_rede=?, area_rede=?, setor_rede=?,lider_cel_rede=?, cod_lider_rede=?, data_rede=?, tipo_cel_rede=? where id_rede=?";
         try {
 
             pst = conexao.prepareStatement(sql);
@@ -149,7 +164,10 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
             pst.setString(6, txtSetor.getText().toUpperCase());
             pst.setString(7, txtLider.getText().toUpperCase());
             pst.setString(8, txtIdLider.getText());
-            pst.setString(9, txtId.getText());
+            pst.setString(9, lblDataFormatada.getText());
+            pst.setString(10, cmbTipoCel.getSelectedItem().toString());
+            pst.setString(11, txtId.getText());
+            
 
             if ((txtSupRede.getText().isEmpty() || txtCorRede.getText().isEmpty() || txtPrRede.getText().isEmpty() || txtDistrito.getText().isEmpty()
                     || txtArea.getText().isEmpty() || txtSetor.getText().isEmpty() || txtLider.getText().isEmpty() || txtIdLider.getText().isEmpty())) {
@@ -289,6 +307,8 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
         txtArea = new javax.swing.JTextField();
         btnAdicionar = new javax.swing.JButton();
         btnPesquisar = new javax.swing.JButton();
+        lblDistrito5 = new javax.swing.JLabel();
+        cmbTipoCel = new javax.swing.JComboBox<>();
 
         txtCodPastor.setEditable(false);
 
@@ -435,13 +455,15 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
             }
         });
 
+        lblDistrito5.setText("Tipo de Célula:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 626, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 616, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(21, 21, 21)
@@ -475,7 +497,12 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
                                 .addComponent(txtSupRede)
                                 .addComponent(txtSetor, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(txtLider, javax.swing.GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE)
-                                .addComponent(txtIdLider, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(txtIdLider, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(67, 67, 67)
+                                    .addComponent(lblDistrito5)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(cmbTipoCel, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addComponent(txtPrRede, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(txtCorRede, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(txtDistrito, javax.swing.GroupLayout.Alignment.LEADING)
@@ -525,7 +552,9 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtIdLider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblDistrito4)))
+                            .addComponent(lblDistrito4)
+                            .addComponent(lblDistrito5)
+                            .addComponent(cmbTipoCel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(lblDistrito2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -536,7 +565,7 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
                         .addComponent(btnPesquisar, javax.swing.GroupLayout.Alignment.TRAILING))
                     .addComponent(btnAdicionar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -719,6 +748,7 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnDeletar;
     private javax.swing.JButton btnLimpar;
     private javax.swing.JButton btnPesquisar;
+    private javax.swing.JComboBox<String> cmbTipoCel;
     private javax.swing.JLabel dataFormatada;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
@@ -730,6 +760,7 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblDistrito2;
     private javax.swing.JLabel lblDistrito3;
     private javax.swing.JLabel lblDistrito4;
+    private javax.swing.JLabel lblDistrito5;
     private javax.swing.JLabel lblNome;
     private javax.swing.JLabel lblNome1;
     private javax.swing.JLabel lblPrenchaCampos;

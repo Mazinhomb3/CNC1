@@ -57,7 +57,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" pref="626" max="32767" attributes="0"/>
+              <Component id="jScrollPane1" pref="616" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
           <Group type="102" alignment="0" attributes="0">
@@ -96,7 +96,13 @@
                               <Component id="txtSupRede" max="32767" attributes="0"/>
                               <Component id="txtSetor" alignment="0" max="32767" attributes="0"/>
                               <Component id="txtLider" alignment="1" pref="303" max="32767" attributes="0"/>
-                              <Component id="txtIdLider" alignment="0" min="-2" pref="65" max="-2" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="txtIdLider" min="-2" pref="65" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
+                                  <Component id="lblDistrito5" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="cmbTipoCel" max="32767" attributes="0"/>
+                              </Group>
                               <Component id="txtPrRede" alignment="0" max="32767" attributes="0"/>
                               <Component id="txtCorRede" alignment="0" max="32767" attributes="0"/>
                               <Component id="txtDistrito" alignment="0" max="32767" attributes="0"/>
@@ -161,6 +167,8 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="txtIdLider" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lblDistrito4" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblDistrito5" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cmbTipoCel" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Component id="lblDistrito2" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -176,7 +184,7 @@
                   <Component id="btnAdicionar" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" pref="134" max="32767" attributes="0"/>
+              <Component id="jScrollPane1" pref="143" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -205,7 +213,7 @@
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="Limpar"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-          <Color id="Default Cursor"/>
+          <Color id="Cursor Padr&#xe3;o"/>
         </Property>
       </Properties>
       <Events>
@@ -219,7 +227,7 @@
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="Alterar"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-          <Color id="Default Cursor"/>
+          <Color id="Cursor Padr&#xe3;o"/>
         </Property>
       </Properties>
       <Events>
@@ -233,7 +241,7 @@
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="Deletar"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-          <Color id="Default Cursor"/>
+          <Color id="Cursor Padr&#xe3;o"/>
         </Property>
       </Properties>
       <Events>
@@ -349,7 +357,7 @@
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="Adicionar"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-          <Color id="Default Cursor"/>
+          <Color id="Cursor Padr&#xe3;o"/>
         </Property>
       </Properties>
       <Events>
@@ -363,12 +371,27 @@
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="Pesquisar"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-          <Color id="Default Cursor"/>
+          <Color id="Cursor Padr&#xe3;o"/>
         </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPesquisarActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblDistrito5">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Tipo de C&#xe9;lula:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="cmbTipoCel">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="0"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

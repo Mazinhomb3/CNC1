@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -33,6 +35,17 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
         DateFormat formatador = DateFormat.getDateInstance(DateFormat.SHORT);
         lblData.setText(formatador.format(data));
         lblData.setForeground(Color.red);
+        
+        Calendar calendarData = Calendar.getInstance();
+        int numeroDiasParaSubtrair = 0;
+        calendarData.add(Calendar.DATE, numeroDiasParaSubtrair);
+        Date dataInicial = calendarData.getTime();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        lblDataFormatada.setText(format.format(dataInicial));
+
+       
+        
+       
 
     }
 
@@ -80,7 +93,7 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
     }
 
     private void adicionar() {
-        String sql = "insert into tbl_redes ( superv_rede, cor_rede , pr_rede, distrito_rede, area_rede, setor_rede,lider_cel_rede, cod_lider_rede) values (?,?,?,?,?,?,?,?) ";
+        String sql = "insert into tbl_redes ( superv_rede, cor_rede , pr_rede, distrito_rede, area_rede, setor_rede,lider_cel_rede, cod_lider_rede, data_rede) values (?,?,?,?,?,?,?,?,?) ";
         try {
 
             pst = conexao.prepareStatement(sql);
@@ -93,6 +106,7 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
             pst.setString(6, txtSetor.getText().toUpperCase());
             pst.setString(7, txtLider.getText().toUpperCase());
             pst.setString(8, txtIdLider.getText().toUpperCase());
+            pst.setString(9, lblDataFormatada.getText());
             if ((txtSupRede.getText().isEmpty() || txtCorRede.getText().isEmpty() || txtPrRede.getText().isEmpty() || txtDistrito.getText().isEmpty()
                     || txtArea.getText().isEmpty() || txtSetor.getText().isEmpty() || txtLider.getText().isEmpty() || txtIdLider.getText().isEmpty())) {
 
@@ -248,6 +262,8 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
         txtCodPastor = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         txtId = new javax.swing.JTextField();
+        dataFormatada = new javax.swing.JLabel();
+        lblDataFormatada = new javax.swing.JLabel();
         lblNome = new javax.swing.JLabel();
         lblCorRede = new javax.swing.JLabel();
         lblDistrito = new javax.swing.JLabel();
@@ -278,6 +294,10 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
 
         jLabel1.setText("COD.");
 
+        dataFormatada.setText("jLabel2");
+
+        lblDataFormatada.setText("jLabel2");
+
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
@@ -291,7 +311,7 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
 
         btnLimpar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/igpaz/icones/pincel.gif"))); // NOI18N
         btnLimpar.setToolTipText("Limpar");
-        btnLimpar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLimpar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnLimpar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLimparActionPerformed(evt);
@@ -300,7 +320,7 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
 
         btnAuterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/igpaz/icones/update.png"))); // NOI18N
         btnAuterar.setToolTipText("Alterar");
-        btnAuterar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAuterar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnAuterar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAuterarActionPerformed(evt);
@@ -309,7 +329,7 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
 
         btnDeletar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/igpaz/icones/delete.png"))); // NOI18N
         btnDeletar.setToolTipText("Deletar");
-        btnDeletar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnDeletar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnDeletar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDeletarActionPerformed(evt);
@@ -399,7 +419,7 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
 
         btnAdicionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/igpaz/icones/add.png"))); // NOI18N
         btnAdicionar.setToolTipText("Adicionar");
-        btnAdicionar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAdicionar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnAdicionar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAdicionarActionPerformed(evt);
@@ -408,7 +428,7 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
 
         btnPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/igpaz/icones/read.png"))); // NOI18N
         btnPesquisar.setToolTipText("Pesquisar");
-        btnPesquisar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnPesquisar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPesquisarActionPerformed(evt);
@@ -423,47 +443,49 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 626, Short.MAX_VALUE)
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(lblData, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblPrenchaCampos)
-                .addGap(51, 51, 51))
             .addGroup(layout.createSequentialGroup()
+                .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(134, 134, 134)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblCorRede, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblNome1, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblDistrito, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblDistrito1, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblDistrito2, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblDistrito3, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblDistrito4, javax.swing.GroupLayout.Alignment.TRAILING)))
-                    .addComponent(lblNome, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(134, 134, 134)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblCorRede, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lblNome1, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lblDistrito, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lblDistrito1, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lblDistrito2, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lblDistrito4, javax.swing.GroupLayout.Alignment.TRAILING)))
+                            .addComponent(lblNome, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblDistrito3, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnAdicionar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnPesquisar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnLimpar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnAuterar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnDeletar))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(txtSupRede)
+                                .addComponent(txtSetor, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtLider, javax.swing.GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE)
+                                .addComponent(txtIdLider, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtPrRede, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtCorRede, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtDistrito, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txtArea, javax.swing.GroupLayout.Alignment.LEADING)))
+                        .addGap(0, 64, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnAdicionar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnPesquisar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnLimpar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnAuterar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnDeletar))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(txtSupRede)
-                        .addComponent(txtSetor, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(txtLider, javax.swing.GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE)
-                        .addComponent(txtIdLider, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtPrRede, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(txtCorRede, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(txtDistrito, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(txtArea, javax.swing.GroupLayout.Alignment.LEADING)))
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(lblData, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblPrenchaCampos)
+                        .addGap(51, 51, 51))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -514,7 +536,7 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
                         .addComponent(btnPesquisar, javax.swing.GroupLayout.Alignment.TRAILING))
                     .addComponent(btnAdicionar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -697,10 +719,12 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnDeletar;
     private javax.swing.JButton btnLimpar;
     private javax.swing.JButton btnPesquisar;
+    private javax.swing.JLabel dataFormatada;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblCorRede;
     private javax.swing.JLabel lblData;
+    private javax.swing.JLabel lblDataFormatada;
     private javax.swing.JLabel lblDistrito;
     private javax.swing.JLabel lblDistrito1;
     private javax.swing.JLabel lblDistrito2;

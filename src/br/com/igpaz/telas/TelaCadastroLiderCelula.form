@@ -80,7 +80,7 @@
                           <Component id="lblDistrito3" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Group type="102" attributes="0">
                               <Component id="btnAdicionar" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -92,24 +92,22 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="btnDeletar" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="txtSupRede" max="32767" attributes="0"/>
-                              <Component id="txtSetor" alignment="0" max="32767" attributes="0"/>
-                              <Component id="txtLider" alignment="1" pref="303" max="32767" attributes="0"/>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="txtIdLider" min="-2" pref="65" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
-                                  <Component id="lblDistrito5" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="cmbTipoCel" max="32767" attributes="0"/>
-                              </Group>
-                              <Component id="txtPrRede" alignment="0" max="32767" attributes="0"/>
-                              <Component id="txtCorRede" alignment="0" max="32767" attributes="0"/>
-                              <Component id="txtDistrito" alignment="0" max="32767" attributes="0"/>
-                              <Component id="txtArea" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txtSupRede" alignment="1" max="32767" attributes="0"/>
+                          <Component id="txtSetor" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txtLider" alignment="1" pref="303" max="32767" attributes="0"/>
+                          <Component id="txtPrRede" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txtCorRede" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txtDistrito" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txtArea" alignment="0" max="32767" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="txtIdLider" min="-2" pref="65" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
+                              <Component id="lblDistrito5" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="cmbTipoCel" max="32767" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="0" pref="64" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <Component id="lblData" min="-2" pref="84" max="-2" attributes="0"/>
@@ -167,7 +165,7 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="txtIdLider" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lblDistrito4" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblDistrito5" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblDistrito5" alignment="1" max="32767" attributes="0"/>
                           <Component id="cmbTipoCel" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -184,7 +182,7 @@
                   <Component id="btnAdicionar" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" pref="143" max="32767" attributes="0"/>
+              <Component id="jScrollPane1" pref="134" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -213,7 +211,7 @@
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="Limpar"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-          <Color id="Cursor Padr&#xe3;o"/>
+          <Color id="Default Cursor"/>
         </Property>
       </Properties>
       <Events>
@@ -227,7 +225,7 @@
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="Alterar"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-          <Color id="Cursor Padr&#xe3;o"/>
+          <Color id="Default Cursor"/>
         </Property>
       </Properties>
       <Events>
@@ -241,7 +239,7 @@
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="Deletar"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-          <Color id="Cursor Padr&#xe3;o"/>
+          <Color id="Default Cursor"/>
         </Property>
       </Properties>
       <Events>
@@ -357,7 +355,7 @@
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="Adicionar"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-          <Color id="Cursor Padr&#xe3;o"/>
+          <Color id="Default Cursor"/>
         </Property>
       </Properties>
       <Events>
@@ -371,7 +369,7 @@
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="Pesquisar"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-          <Color id="Cursor Padr&#xe3;o"/>
+          <Color id="Default Cursor"/>
         </Property>
       </Properties>
       <Events>
@@ -386,7 +384,9 @@
     <Component class="javax.swing.JComboBox" name="cmbTipoCel">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="0"/>
+          <StringArray count="1">
+            <StringItem index="0" value=" "/>
+          </StringArray>
         </Property>
       </Properties>
       <AuxValues>

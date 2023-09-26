@@ -14,9 +14,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
         initComponents();
         setIcon();
         conexao = ModuloConexao.conector();
-        
-        //TelaConvetidos.lblUsuarioFinal = lblUsuario;
 
+        //TelaConvetidos.lblUsuarioFinal = lblUsuario;
     }
 
     @SuppressWarnings("unchecked")
@@ -31,7 +30,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
         menCad = new javax.swing.JMenu();
         menCadUsuario = new javax.swing.JMenuItem();
         MenCadLidCel = new javax.swing.JMenuItem();
-        menCadDadosCel = new javax.swing.JMenuItem();
+        menCadastroDados = new javax.swing.JMenuItem();
+        menVisualizarDados = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         menSob = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
@@ -95,14 +95,23 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         menCad.add(MenCadLidCel);
 
-        menCadDadosCel.setText("Cad.  Dados Célula");
-        menCadDadosCel.setEnabled(false);
-        menCadDadosCel.addActionListener(new java.awt.event.ActionListener() {
+        menCadastroDados.setText("Cad.  Dados Célula");
+        menCadastroDados.setEnabled(false);
+        menCadastroDados.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menCadDadosCelActionPerformed(evt);
+                menCadastroDadosActionPerformed(evt);
             }
         });
-        menCad.add(menCadDadosCel);
+        menCad.add(menCadastroDados);
+
+        menVisualizarDados.setText("Visualizar Dados");
+        menVisualizarDados.setEnabled(false);
+        menVisualizarDados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menVisualizarDadosActionPerformed(evt);
+            }
+        });
+        menCad.add(menVisualizarDados);
 
         Menu.add(menCad);
         menCad.getAccessibleContext().setAccessibleName("&Cadastro");
@@ -162,7 +171,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addContainerGap(251, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(Desktop, javax.swing.GroupLayout.DEFAULT_SIZE, 501, Short.MAX_VALUE)
+                .addComponent(Desktop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -201,7 +210,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void menCadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menCadActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_menCadActionPerformed
 
     private void MenCadLidCelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenCadLidCelActionPerformed
@@ -211,12 +220,19 @@ public class TelaPrincipal extends javax.swing.JFrame {
         Desktop.add(cadastrolidercelula);
     }//GEN-LAST:event_MenCadLidCelActionPerformed
 
-    private void menCadDadosCelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menCadDadosCelActionPerformed
+    private void menCadastroDadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menCadastroDadosActionPerformed
         // TODO add your handling code here:
-     TelaCadastroDados telacadastrodados = new TelaCadastroDados();
-     telacadastrodados.setVisible(true);
-     Desktop.add(telacadastrodados);
-    }//GEN-LAST:event_menCadDadosCelActionPerformed
+        TelaCadastroDados telacadastrodados = new TelaCadastroDados();
+        telacadastrodados.setVisible(true);
+        Desktop.add(telacadastrodados);
+    }//GEN-LAST:event_menCadastroDadosActionPerformed
+
+    private void menVisualizarDadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menVisualizarDadosActionPerformed
+        // TODO add your handling code here:
+        TelaVisualizar telavisualizar = new TelaVisualizar();
+        telavisualizar.setVisible(true);
+        Desktop.add(telavisualizar);
+    }//GEN-LAST:event_menVisualizarDadosActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -261,10 +277,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
     public static javax.swing.JLabel lblData;
     public static javax.swing.JLabel lblUsuario;
     private javax.swing.JMenu menCad;
-    public static javax.swing.JMenuItem menCadDadosCel;
     public static javax.swing.JMenuItem menCadUsuario;
+    public static javax.swing.JMenuItem menCadastroDados;
     private javax.swing.JMenuItem menSair;
     private javax.swing.JMenuItem menSob;
+    public static javax.swing.JMenuItem menVisualizarDados;
     // End of variables declaration//GEN-END:variables
 
     private void setIcon() {

@@ -132,6 +132,37 @@ public final class TelaVisualizar extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, e);
         }
     }
+    
+    /*
+    public void setacampos() {
+        int setar = tblConvertidos.getSelectedRow();
+        txtId_Convertidos.setText(tblConvertidos.getModel().getValueAt(setar, 0).toString());
+        txtNome.setText(tblConvertidos.getModel().getValueAt(setar, 1).toString());
+        cmbIdade.setSelectedItem(tblConvertidos.getModel().getValueAt(setar, 2).toString());
+        txtEndereco.setText(tblConvertidos.getModel().getValueAt(setar, 3).toString());
+        txtNumero.setText(tblConvertidos.getModel().getValueAt(setar, 4).toString());
+        txtBairro.setText(tblConvertidos.getModel().getValueAt(setar, 5).toString());
+        txtContato.setText(tblConvertidos.getModel().getValueAt(setar, 6).toString());
+        txtLider.setText(tblConvertidos.getModel().getValueAt(setar, 7).toString());
+        txtRede.setText(tblConvertidos.getModel().getValueAt(setar, 8).toString());
+        cmbCorRede.setSelectedItem(tblConvertidos.getModel().getValueAt(setar, 9).toString());
+        cmbDistrito.setSelectedItem(tblConvertidos.getModel().getValueAt(setar, 10).toString());
+        cmbTipo.setSelectedItem(tblConvertidos.getModel().getValueAt(setar, 12).toString());
+
+    }
+
+    public void Limpar() {
+        txtNome.setText(null);
+        txtEndereco.setText(null);
+        txtNumero.setText(null);
+        txtBairro.setText(null);
+        txtContato.setText(null);
+        txtLider.setText(null);
+        this.pesquisa_avancada();
+
+    }
+    
+    */
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

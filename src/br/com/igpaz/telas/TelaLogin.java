@@ -110,6 +110,7 @@ public class TelaLogin extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Usuario ou Senha ivalidos ");
                 txtLogin.setText(null);
                 txtSenha.setText(null);
+                txtLogin.requestFocus();
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);

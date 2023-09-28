@@ -67,6 +67,7 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
                 if (adicionado > 0) {
                     JOptionPane.showMessageDialog(null, "Cadastro inseridos com sucesso.");
                     txtUsuId.setText(null);
+                    txtUsuNome.setText(null);
                     txtEmail.setText(null);
                     txtUsuSenha.setText(null);
                     this.pesquisa_avancada();

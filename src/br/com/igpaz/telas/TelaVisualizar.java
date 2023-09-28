@@ -52,7 +52,7 @@ public final class TelaVisualizar extends javax.swing.JInternalFrame {
     //Popula Combobox Cor_rede
     public void populaCmbRede() {
 
-        String sql = "select distinct cor_rede_lider from tbl_dados";
+        String sql = "select distinct cor_rede_lider from tbl_dados order by cor_rede_lider asc";
 
         try {
             pst = conexao.prepareStatement(sql);
@@ -72,7 +72,7 @@ public final class TelaVisualizar extends javax.swing.JInternalFrame {
 
     public void populaCmbDataIn() {
 
-        String sql = "select distinct data_lider from tbl_dados";
+        String sql = "select distinct data_lider from tbl_dados ORDER BY data_lider ASC";
 
         try {
             pst = conexao.prepareStatement(sql);

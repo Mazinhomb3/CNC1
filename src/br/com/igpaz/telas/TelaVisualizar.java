@@ -2,13 +2,11 @@ package br.com.igpaz.telas;
 
 import br.com.igpaz.dal.ModuloConexao;
 import java.awt.Color;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JLabel;
@@ -19,13 +17,10 @@ public final class TelaVisualizar extends javax.swing.JInternalFrame {
 
     static JLabel lblUsuarioFinal;
 
-    ArrayList nome = new ArrayList();
-    ArrayList bairro = new ArrayList();
-    ArrayList lider = new ArrayList();
-
     Connection conexao = null;
     PreparedStatement pst = null;
     ResultSet rs = null;
+  
 
     public TelaVisualizar() {
 
@@ -34,7 +29,6 @@ public final class TelaVisualizar extends javax.swing.JInternalFrame {
         //Popula as Combobox
         //this.pesquisa_avancada();
         this.populaCmbRede();
-
         this.populaCmbDataIn();
 
         //Colocar cor nas Labels
@@ -103,22 +97,20 @@ public final class TelaVisualizar extends javax.swing.JInternalFrame {
     }
 
     private void pesquisa_avancada() {
-        String sql = "select cod_lider_rede as COD,nome_lider as NOME,membros_celula as MC,membroscomp_celula as MCP,convidadospres_celula as CPC,criancas_celula as CRIANÇAS, totalpres_celula as TPC, mda_celula as MDA, ge_celula as GE, oferta_celula as OFERTA, digitador_lider as DIGITOU, tipo_cel_dados as TIPO from tbl_dados where cor_rede_lider = ? AND data_lider BETWEEN ? and ? ";
+        String sql = "select id_lider AS ID, cod_lider_rede as COD,nome_lider as NOME,membros_celula as MC,membroscomp_celula as MCP,convidadospres_celula as CPC,criancas_celula as CRIANÇAS, totalpres_celula as TPC, mda_celula as MDA, ge_celula as GE, oferta_celula as OFERTA,data_lider AS DATA , digitador_lider as DIGITOU, tipo_cel_dados as TIPO from tbl_dados where cor_rede_lider = ? AND data_lider BETWEEN ? and ? ";
 
         try {
 
             String date = cmbDataIn.getSelectedItem().toString();
             String dateOut = cmbDataOut.getSelectedItem().toString();
             SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-            System.out.println(date);
+            //System.out.println(date);
 
             Date date1 = format.parse(date);
             Date data2 = format.parse(dateOut);
             DateFormat formatBR = new SimpleDateFormat("yyyy-MM-dd");
             String dataFormatadaIn = formatBR.format(date1);
             String DataFormatadaOut = formatBR.format(data2);
-            
-           
 
             pst = conexao.prepareStatement(sql);
             pst.setString(1, cmbCorRede.getSelectedItem().toString());
@@ -132,37 +124,100 @@ public final class TelaVisualizar extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, e);
         }
     }
-    
-    /*
+
+ 
+
     public void setacampos() {
-        int setar = tblConvertidos.getSelectedRow();
-        txtId_Convertidos.setText(tblConvertidos.getModel().getValueAt(setar, 0).toString());
-        txtNome.setText(tblConvertidos.getModel().getValueAt(setar, 1).toString());
-        cmbIdade.setSelectedItem(tblConvertidos.getModel().getValueAt(setar, 2).toString());
-        txtEndereco.setText(tblConvertidos.getModel().getValueAt(setar, 3).toString());
-        txtNumero.setText(tblConvertidos.getModel().getValueAt(setar, 4).toString());
-        txtBairro.setText(tblConvertidos.getModel().getValueAt(setar, 5).toString());
-        txtContato.setText(tblConvertidos.getModel().getValueAt(setar, 6).toString());
-        txtLider.setText(tblConvertidos.getModel().getValueAt(setar, 7).toString());
-        txtRede.setText(tblConvertidos.getModel().getValueAt(setar, 8).toString());
-        cmbCorRede.setSelectedItem(tblConvertidos.getModel().getValueAt(setar, 9).toString());
-        cmbDistrito.setSelectedItem(tblConvertidos.getModel().getValueAt(setar, 10).toString());
-        cmbTipo.setSelectedItem(tblConvertidos.getModel().getValueAt(setar, 12).toString());
+        int setar = tblDados.getSelectedRow();
+        txtId.setText(tblDados.getModel().getValueAt(setar, 0).toString());
+        txtMTC.setText(tblDados.getModel().getValueAt(setar, 3).toString());
+        txtMCP.setText(tblDados.getModel().getValueAt(setar, 4).toString());
+        txtCP.setText(tblDados.getModel().getValueAt(setar, 5).toString());
+        txtC.setText(tblDados.getModel().getValueAt(setar, 6).toString());
+        txtMDA.setText(tblDados.getModel().getValueAt(setar, 8).toString());
+        txtGE.setText(tblDados.getModel().getValueAt(setar, 9).toString());
+        txtOferta.setText(tblDados.getModel().getValueAt(setar, 10).toString());
+        txtDataTr.setText(cmbDataIn.getSelectedItem().toString());
+
+        
+        
 
     }
 
-    public void Limpar() {
-        txtNome.setText(null);
-        txtEndereco.setText(null);
-        txtNumero.setText(null);
-        txtBairro.setText(null);
-        txtContato.setText(null);
-        txtLider.setText(null);
-        this.pesquisa_avancada();
+  
+
+    private void auterarDados() {
+        String sql = "update  tbl_dados set data_lider=?, membros_celula=? , membroscomp_celula=?, convidadospres_celula=?, criancas_celula=?, totalpres_celula=?,mda_celula=?, ge_celula=?, oferta_celula=?, tipo_cel_dados=? where id_lider=?";
+        try {
+           
+
+            String dataimput = txtDataTr.getText();
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            Date date1 = format.parse(dataimput);
+            DateFormat formatBR = new SimpleDateFormat("yyyy-MM-dd");
+            String dateFormated = formatBR.format(date1);
+
+            String mcp = txtMCP.getText();
+            int mcp1 = Integer.parseInt(mcp);
+            String convPres = txtCP.getText();
+            int convPres1 = Integer.parseInt(convPres);
+            String criancas = txtC.getText();
+            int criancas1 = Integer.parseInt(criancas);
+            int total = mcp1 + convPres1 + criancas1;
+            String total1 = String.valueOf(total);
+
+            pst = conexao.prepareStatement(sql);
+
+            pst.setString(1, dateFormated);
+            pst.setString(2, txtMTC.getText());
+            pst.setString(3, txtMCP.getText());
+            pst.setString(4, txtCP.getText());
+            pst.setString(5, txtC.getText());
+            pst.setString(6, total1);
+            pst.setString(7, txtMDA.getText());
+            pst.setString(8, txtGE.getText());
+            pst.setString(9, txtOferta.getText());
+            pst.setString(10, cmbTipo.getSelectedItem().toString());
+            pst.setString(11, txtId.getText());
+
+            if ((txtDataTr.getText().isEmpty())) {
+
+                JOptionPane.showMessageDialog(null, "Campos Obrigatórios.");
+
+            } else {
+
+//esse codigo atualiza o banco de dados
+                int adicionado = pst.executeUpdate();
+//A llinha abaixo serve de apoio ao codigo           
+// System.out.println(adicionado);
+                if (adicionado > 0) {
+
+                    JOptionPane.showMessageDialog(null, "Dados auterados com sucessos.");
+                    
+                    cmbCorRede.setName("");
+                    populaCmbRede();
+                    populaCmbDataIn();
+                    
+                    txtId.setText(null);
+                    txtMTC.setText(null);
+                    txtMCP.setText(null);
+                    txtCP.setText(null);
+                    txtC.setText(null);
+                    txtOferta.setText(null);
+                    txtMDA.setText(null);
+                    txtGE.setText(null);
+                    txtDataTr.setText(null);
+                    
+                    pesquisa_avancada();
+
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+
+        }
 
     }
-    
-    */
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -184,7 +239,27 @@ public final class TelaVisualizar extends javax.swing.JInternalFrame {
         cmbDataIn = new javax.swing.JComboBox<>();
         cmbDataOut = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
+        btnAlterar = new javax.swing.JButton();
+        txtMCP = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        txtMTC = new javax.swing.JTextField();
+        txtCP = new javax.swing.JTextField();
+        txtC = new javax.swing.JTextField();
+        txtMDA = new javax.swing.JTextField();
+        txtGE = new javax.swing.JTextField();
+        txtId = new javax.swing.JTextField();
+        cmbTipo = new javax.swing.JComboBox<>();
+        txtDataTr = new javax.swing.JFormattedTextField();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
         btnPesquisar = new javax.swing.JButton();
+        txtOferta = new javax.swing.JTextField();
 
         lblData.setText("jLabel5");
 
@@ -254,6 +329,37 @@ public final class TelaVisualizar extends javax.swing.JInternalFrame {
 
         jLabel4.setText("REDE");
 
+        btnAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/igpaz/icones/update.png"))); // NOI18N
+        btnAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("MTC");
+
+        jLabel6.setText("MCP");
+
+        jLabel7.setText("CP");
+
+        jLabel8.setText("C");
+
+        jLabel9.setText("OFERTA");
+
+        jLabel10.setText("MDA's");
+
+        jLabel12.setText("TIPO");
+
+        txtId.setEditable(false);
+
+        cmbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADULTO", "CRIANCA" }));
+
+        txtDataTr.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
+
+        jLabel13.setText("GE's");
+
+        jLabel14.setText("DATA");
+
         btnPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/igpaz/icones/lupa.png"))); // NOI18N
         btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -266,86 +372,204 @@ public final class TelaVisualizar extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(286, 286, 286)
-                        .addComponent(lblUsuariofinal, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(10, 10, 10)
+                        .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(47, 47, 47)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cmbDataIn, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cmbDataOut, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblUsuariofinal, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3))
+                                .addGap(12, 12, 12)
+                                .addComponent(btnPesquisar)
+                                .addGap(9, 9, 9)
+                                .addComponent(btnAlterar)))
+                        .addGap(7, 7, 7)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(9, 9, 9)
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel12)
+                                .addGap(76, 76, 76)
+                                .addComponent(jLabel14))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 617, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(47, 47, 47)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(cmbCorRede, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(cmbDataOut, javax.swing.GroupLayout.Alignment.TRAILING, 0, 128, Short.MAX_VALUE)
-                                .addComponent(cmbDataIn, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnPesquisar))
-                .addGap(0, 62, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(txtMTC, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(27, 27, 27)
+                                        .addComponent(txtMCP, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(27, 27, 27)
+                                        .addComponent(txtCP, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(26, 26, 26))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                        .addGap(15, 15, 15)
+                                        .addComponent(jLabel5)
+                                        .addGap(56, 56, 56)
+                                        .addComponent(jLabel6)
+                                        .addGap(62, 62, 62)
+                                        .addComponent(jLabel7)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtC, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(23, 23, 23)
+                                        .addComponent(jLabel8)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(24, 24, 24)
+                                        .addComponent(jLabel9))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txtOferta, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(21, 21, 21)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(6, 6, 6)
+                                        .addComponent(jLabel10)
+                                        .addGap(51, 51, 51)
+                                        .addComponent(jLabel13))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(txtMDA, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txtGE, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(cmbCorRede, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(6, 6, 6)
+                                .addComponent(jLabel4)
+                                .addGap(126, 126, 126)
+                                .addComponent(cmbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtDataTr, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(10, 10, 10))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(9, 9, 9)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnPesquisar)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(10, 10, 10)
+                        .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(cmbDataIn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6)
+                        .addComponent(cmbDataOut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
                         .addComponent(lblUsuariofinal)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(cmbDataIn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(1, 1, 1)
+                                .addComponent(jLabel2)
+                                .addGap(12, 12, 12)
                                 .addComponent(jLabel3))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(cmbDataOut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(btnPesquisar)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(btnAlterar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(1, 1, 1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(cmbCorRede, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(jLabel4))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(cmbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtDataTr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtMDA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtGE, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtOferta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cmbCorRede, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))))
-                .addGap(9, 9, 9)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtMTC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtMCP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtCP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel7)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel9)
+                        .addComponent(jLabel10))
+                    .addComponent(jLabel13))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        setBounds(0, 0, 641, 487);
+        setBounds(0, 0, 641, 483);
     }// </editor-fold>//GEN-END:initComponents
 
     private void tblDadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDadosMouseClicked
         // TODO add your handling code here:
+        setacampos();
 
     }//GEN-LAST:event_tblDadosMouseClicked
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
         // TODO add your handling code here:
-        this.pesquisa_avancada();
+        pesquisa_avancada();
     }//GEN-LAST:event_btnPesquisarActionPerformed
+
+    private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
+        // TODO add your handling code here:
+        auterarDados();
+    }//GEN-LAST:event_btnAlterarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAlterar;
     private javax.swing.JButton btnPesquisar;
     private javax.swing.JComboBox<String> cmbCorRede;
     private javax.swing.JComboBox<String> cmbDataIn;
     private javax.swing.JComboBox<String> cmbDataOut;
+    private javax.swing.JComboBox<String> cmbTipo;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblData;
@@ -353,8 +577,17 @@ public final class TelaVisualizar extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblDataTela;
     public static javax.swing.JLabel lblUsuariofinal;
     private javax.swing.JTable tblDados;
+    private javax.swing.JTextField txtC;
+    private javax.swing.JTextField txtCP;
+    private javax.swing.JFormattedTextField txtDataTr;
+    private javax.swing.JTextField txtGE;
+    private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtIdPastor;
     private javax.swing.JTextField txtId_dados;
+    private javax.swing.JTextField txtMCP;
+    private javax.swing.JTextField txtMDA;
+    private javax.swing.JTextField txtMTC;
+    private javax.swing.JTextField txtOferta;
     // End of variables declaration//GEN-END:variables
 
 }

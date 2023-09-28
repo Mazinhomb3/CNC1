@@ -527,17 +527,18 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
         jPanel1.add(jSeparator5);
         jSeparator5.setBounds(40, 180, 200, 10);
 
+        txtOferta.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         txtOferta.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtOfertaKeyPressed(evt);
             }
         });
         jPanel1.add(txtOferta);
-        txtOferta.setBounds(190, 270, 60, 30);
+        txtOferta.setBounds(200, 30, 50, 20);
 
         jLabel9.setText("Oferta");
         jPanel1.add(jLabel9);
-        jLabel9.setBounds(200, 250, 33, 16);
+        jLabel9.setBounds(210, 10, 33, 16);
 
         lblTotalPres.setText("Total");
 
@@ -560,9 +561,14 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
 
         jLabel17.setText("R$ ");
         jPanel1.add(jLabel17);
-        jLabel17.setBounds(170, 280, 20, 16);
+        jLabel17.setBounds(180, 30, 20, 16);
 
         cmbTipoCelDados.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADULTO", "CRIANCA" }));
+        cmbTipoCelDados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbTipoCelDadosActionPerformed(evt);
+            }
+        });
 
         jLabel18.setText("TIPO CÉLULA:");
 
@@ -853,6 +859,11 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
             });
         }
     }//GEN-LAST:event_txtOfertaKeyPressed
+
+    private void cmbTipoCelDadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTipoCelDadosActionPerformed
+        // TODO add your handling code here:
+        txtOferta.requestFocus();
+    }//GEN-LAST:event_cmbTipoCelDadosActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

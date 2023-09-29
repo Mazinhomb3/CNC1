@@ -32,6 +32,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         MenCadLidCel = new javax.swing.JMenuItem();
         menCadastroDados = new javax.swing.JMenuItem();
         menVisualizarDados = new javax.swing.JMenuItem();
+        menPorcentagem = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         menSob = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
@@ -39,35 +40,43 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("C. Dados Celulas");
+        setMinimumSize(new java.awt.Dimension(950, 590));
         setResizable(false);
+        setSize(new java.awt.Dimension(950, 590));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
             }
         });
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        Desktop.setPreferredSize(new java.awt.Dimension(640, 480));
+        Desktop.setPreferredSize(new java.awt.Dimension(740, 550));
 
         javax.swing.GroupLayout DesktopLayout = new javax.swing.GroupLayout(Desktop);
         Desktop.setLayout(DesktopLayout);
         DesktopLayout.setHorizontalGroup(
             DesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 640, Short.MAX_VALUE)
+            .addGap(0, 740, Short.MAX_VALUE)
         );
         DesktopLayout.setVerticalGroup(
             DesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
+        getContentPane().add(Desktop, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, 740, 550));
+
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/igpaz/icones/logopazchurch120.png"))); // NOI18N
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 30, -1, -1));
 
         lblData.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         lblData.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblData.setText("Data");
+        getContentPane().add(lblData, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 170, 120, -1));
 
         lblUsuario.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         lblUsuario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblUsuario.setText("USUÁRIO");
+        getContentPane().add(lblUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 210, 114, 21));
 
         menCad.setText("Cadastro");
         menCad.addActionListener(new java.awt.event.ActionListener() {
@@ -113,6 +122,15 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         menCad.add(menVisualizarDados);
 
+        menPorcentagem.setText("Porcentagem");
+        menPorcentagem.setEnabled(false);
+        menPorcentagem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menPorcentagemActionPerformed(evt);
+            }
+        });
+        menCad.add(menPorcentagem);
+
         Menu.add(menCad);
         menCad.getAccessibleContext().setAccessibleName("&Cadastro");
 
@@ -144,38 +162,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         setJMenuBar(Menu);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(Desktop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblData, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(jLabel1)
-                .addGap(45, 45, 45)
-                .addComponent(lblData)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(251, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(Desktop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        setSize(new java.awt.Dimension(806, 544));
+        setSize(new java.awt.Dimension(950, 618));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -234,6 +221,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
         Desktop.add(telavisualizar);
     }//GEN-LAST:event_menVisualizarDadosActionPerformed
 
+    private void menPorcentagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menPorcentagemActionPerformed
+        // TODO add your handling code here:
+         TelaPorcentagem telaPorcentagem = new TelaPorcentagem();
+        telaPorcentagem.setVisible(true);
+        Desktop.add(telaPorcentagem);
+    }//GEN-LAST:event_menPorcentagemActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -279,6 +273,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu menCad;
     public static javax.swing.JMenuItem menCadUsuario;
     public static javax.swing.JMenuItem menCadastroDados;
+    public static javax.swing.JMenuItem menPorcentagem;
     private javax.swing.JMenuItem menSair;
     private javax.swing.JMenuItem menSob;
     public static javax.swing.JMenuItem menVisualizarDados;

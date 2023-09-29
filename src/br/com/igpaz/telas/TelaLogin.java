@@ -77,6 +77,8 @@ public class TelaLogin extends javax.swing.JFrame {
                     TelaPrincipal.MenCadLidCel.setEnabled(true);
                     TelaPrincipal.menCadastroDados.setEnabled(true);
                     TelaPrincipal.menVisualizarDados.setEnabled(true);
+                    TelaPrincipal.menPorcentagem.setEnabled(true);
+
                     TelaPrincipal.lblUsuario.setText(rs.getString(2).toUpperCase());
                     TelaPrincipal.lblUsuario.setForeground(Color.red);
 
@@ -88,9 +90,10 @@ public class TelaLogin extends javax.swing.JFrame {
                     TelaPrincipal.MenCadLidCel.setEnabled(true);
                     TelaPrincipal.menCadastroDados.setEnabled(true);
                     TelaPrincipal.menVisualizarDados.setEnabled(true);
-                    
-                    TelaPrincipal.lblUsuario.setText(rs.getString(2));
-                    TelaPrincipal.lblUsuario.setForeground(Color.BLUE);
+                    TelaPrincipal.menPorcentagem.setEnabled(true);
+
+                    TelaPrincipal.lblUsuario.setText(rs.getString(2).toUpperCase());
+                    TelaPrincipal.lblUsuario.setForeground(Color.blue);
 
                     this.dispose();
 

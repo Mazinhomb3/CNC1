@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
@@ -19,11 +20,17 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
     Connection conexao = null;
     PreparedStatement pst = null;
     ResultSet rs = null;
+    
+   
 
     public TelaPorcentagem() {
         initComponents();
         conexao = ModuloConexao.conector();
+        
+        ArrauList sup_rede = new ArrayList;
+        
         this.populaCmbRede();
+        this.pesquisa_avancada();
         
 
         Date data = new Date();
@@ -55,11 +62,11 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
     }
 
     private void pesquisa_avancada() {
-        String sql = "Select id AS ID, ce AS EXISTENTES, cr AS CRIANCA, cf AS FALTANDO, entregue AS ENTREGUE, porcentegem AS PORCENTAGEM, atrazado AS ATRAZADO";
+        String sql = "Select id AS ID, ce AS EXISTENTES, cr AS CRIANCA, cf AS FALTANDO, entregue AS ENTREGUE, porcentagem AS PORCENTAGEM, atrazado AS ATRAZADO from tbl_porcentagem ";
 
         try {
             pst = conexao.prepareStatement(sql);
-            pst.setString(1, cmbRede.getSelectedItem() + "%");
+            //pst.setString(1, cmbRede.getSelectedItem() + "%");
 
             rs = pst.executeQuery();
             tblporcentagem.setModel(DbUtils.resultSetToTableModel(rs));
@@ -76,7 +83,7 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
 
     public void armazenar() {
 
-        String sql = "select * from tbl_rede where cor_rede = ?";
+        String sql = "select * from tbl_redes where cor_rede = ? limit 1 ";
 
         try {
 
@@ -85,8 +92,10 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
             rs = pst.executeQuery();
 
             while (rs.next()) {
-                String rede = rs.getString("pr_rede");
-                System.out.println(rede);
+                String sup_rede = rs.getString("pr_rede");
+                
+                
+                System.out.println(sup_rede);
             }
 
         } catch (Exception e) {

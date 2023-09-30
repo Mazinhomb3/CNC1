@@ -10,7 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
@@ -24,37 +24,32 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
     Connection conexao = null;
     PreparedStatement pst = null;
     ResultSet rs = null;
-    
-    
-    
-    
+
+  
+
     public TelaPorcentagem() {
         initComponents();
         conexao = ModuloConexao.conector();
         populaCmbRede();
-       
-        
-        
+
         Date data = new Date();
         DateFormat formatador = DateFormat.getDateInstance(DateFormat.SHORT);
         lblData.setText(formatador.format(data));
         lblData.setForeground(Color.blue);
-       
-        
+
     }
 
-   
-     //Popula Combobox Cor_rede
+    //Popula Combobox Cor_rede
     public void populaCmbRede() {
 
-        String sql = "select distinct cor_rede_lider from tbl_dados order by cor_rede_lider asc";
+        String sql = "select distinct cor_rede from tbl_redes order by cor_rede asc";
 
         try {
             pst = conexao.prepareStatement(sql);
             rs = pst.executeQuery();
             while (rs.next()) {
 
-                cmbRede.addItem(rs.getString("cor_rede_lider"));
+                cmbRede.addItem(rs.getString("cor_rede"));
 
             }
 
@@ -64,13 +59,13 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
         }
 
     }
-    
-       private void pesquisa_avancada() {
+
+    private void pesquisa_avancada() {
         String sql = "Select id AS ID, ce AS EXISTENTES, cr AS CRIANCA, cf AS FALTANDO, entregue AS ENTREGUE, porcentegem AS PORCENTAGEM, atrazado AS ATRAZADO";
 
         try {
             pst = conexao.prepareStatement(sql);
-            pst.setString(1, cmbRede.getSelectedItem()+ "%");
+            pst.setString(1, cmbRede.getSelectedItem() + "%");
 
             rs = pst.executeQuery();
             tblporcentagem.setModel(DbUtils.resultSetToTableModel(rs));
@@ -78,8 +73,36 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, e);
         }
     }
-  
-    
+
+    public void inserirDados() {
+
+        String sql = "INSERT INTO tbl_dados ( , `cr`, `ce`, `cf`, `entregue`, `porcentagem`, `atrazado`) VALUES ?,?,?,?,?,? ";
+
+    }
+
+    public void armazenar() {
+
+        String sql = "select * from tbl_redes where cor_rede = ?";
+
+        try {
+
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1, cmbRede.getSelectedItem() + "%");
+            rs = pst.executeQuery();
+
+            while (rs.next()) {                
+                String rede = rs.getString("cor_rede");
+            }
+            
+            
+        } catch (Exception e) {
+            
+        }
+
+        String rede;
+
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -202,20 +225,6 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(104, 104, 104)
-                        .addComponent(cmbRede, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(102, 102, 102))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(164, 164, 164)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel3)
-                        .addGap(186, 186, 186))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(221, 221, 221)
@@ -264,7 +273,25 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
                                 .addComponent(btnAuterar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnDeletar)))
-                        .addGap(0, 76, Short.MAX_VALUE)))
+                        .addGap(0, 76, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(164, 164, 164)
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(104, 104, 104)
+                                .addComponent(cmbRede, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel3))
+                        .addGap(102, 102, 102)))
                 .addContainerGap())
             .addComponent(jScrollPane1)
         );
@@ -320,22 +347,22 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
         // TODO add your handling code here:
-       
+
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     private void btnAuterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAuterarActionPerformed
         // Auterar
-      
+
     }//GEN-LAST:event_btnAuterarActionPerformed
 
     private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
         // delete
-     
+
     }//GEN-LAST:event_btnDeletarActionPerformed
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
         // TODO add your handling code here:
-    
+
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
 

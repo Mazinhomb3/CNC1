@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
 package br.com.igpaz.telas;
 
 import br.com.igpaz.dal.ModuloConexao;
@@ -10,7 +6,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
@@ -25,12 +20,11 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
     PreparedStatement pst = null;
     ResultSet rs = null;
 
-  
-
     public TelaPorcentagem() {
         initComponents();
         conexao = ModuloConexao.conector();
-        populaCmbRede();
+        this.populaCmbRede();
+        
 
         Date data = new Date();
         DateFormat formatador = DateFormat.getDateInstance(DateFormat.SHORT);
@@ -76,27 +70,27 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
 
     public void inserirDados() {
 
-        String sql = "INSERT INTO tbl_dados ( , `cr`, `ce`, `cf`, `entregue`, `porcentagem`, `atrazado`) VALUES ?,?,?,?,?,? ";
+        String sql = "INSERT INTO tbl_dados ( cor_rede_dados , `cr`, `ce`, `cf`, `entregue`, `porcentagem`, `atrazado`) VALUES ?,?,?,?,?,? ";
 
     }
 
     public void armazenar() {
 
-        String sql = "select * from tbl_redes where cor_rede = ?";
+        String sql = "select * from tbl_rede where cor_rede = ?";
 
         try {
 
             pst = conexao.prepareStatement(sql);
-            pst.setString(1, cmbRede.getSelectedItem() + "%");
+            pst.setString(1, cmbRede.getSelectedItem().toString());
             rs = pst.executeQuery();
 
-            while (rs.next()) {                
-                String rede = rs.getString("cor_rede");
+            while (rs.next()) {
+                String rede = rs.getString("pr_rede");
+                System.out.println(rede);
             }
-            
-            
+
         } catch (Exception e) {
-            
+
         }
 
         String rede;
@@ -362,6 +356,8 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
         // TODO add your handling code here:
+        // adicionar
+        armazenar();
 
     }//GEN-LAST:event_btnAdicionarActionPerformed
 

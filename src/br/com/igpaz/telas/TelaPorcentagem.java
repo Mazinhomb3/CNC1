@@ -21,13 +21,13 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
     PreparedStatement pst = null;
     ResultSet rs = null;
     
-   
+  
 
     public TelaPorcentagem() {
         initComponents();
         conexao = ModuloConexao.conector();
         
-        ArrauList sup_rede = new ArrayList;
+        
         
         this.populaCmbRede();
         this.pesquisa_avancada();
@@ -93,16 +93,17 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
 
             while (rs.next()) {
                 String sup_rede = rs.getString("pr_rede");
+                          
                 
                 
-                System.out.println(sup_rede);
+                
             }
 
         } catch (Exception e) {
 
         }
 
-        String rede;
+      
 
     }
 
@@ -360,6 +361,7 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
 
     private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
         // delete
+ 
 
     }//GEN-LAST:event_btnDeletarActionPerformed
 

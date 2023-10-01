@@ -119,7 +119,7 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
 
     public void inserirDados() {
 
-        String sql = "INSERT INTO tbl_dados ( cor_rede_dados , `cr`, `ce`, `cf`, `entregue`, `porcentagem`, `atrazado`) VALUES ?,?,?,?,?,? ";
+        String sql = "INSERT INTO tbl_dados ( superv_rede,cor_rede,distrito_rede,pr_rede, , `cr`, `ce`, `cf`, `entregue`, `porcentagem`, `atrazado`) VALUES ?,?,?,?,?,? ";
 
     }
 

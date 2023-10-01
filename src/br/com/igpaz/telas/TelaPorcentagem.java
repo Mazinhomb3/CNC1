@@ -20,16 +20,20 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
     Connection conexao = null;
     PreparedStatement pst = null;
     ResultSet rs = null;
-    
+
     ArrayList sup_rede1 = new ArrayList();
+    ArrayList cor_rede1 = new ArrayList();
+    ArrayList pr_rede1 = new ArrayList();
+    ArrayList distrito_rede1 = new ArrayList();
+    ArrayList area_rede1 = new ArrayList();
+    ArrayList setor_rede1 = new ArrayList();
 
     public TelaPorcentagem() {
         initComponents();
         conexao = ModuloConexao.conector();
-        
+
         this.populaCmbRede();
         this.pesquisa_avancada();
-        
 
         Date data = new Date();
         DateFormat formatador = DateFormat.getDateInstance(DateFormat.SHORT);
@@ -38,35 +42,46 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
 
     }
 
-     public void armazenar() {
+    public void armazenar() {
 
         String sql = "select * from tbl_redes where cor_rede = ? limit 1 ";
 
         try {
-            
+
             sup_rede1.clear();
+            cor_rede1.clear();
+            pr_rede1.clear();
+            distrito_rede1.clear();
+            area_rede1.clear();
+            setor_rede1.clear();
 
             pst = conexao.prepareStatement(sql);
             pst.setString(1, cmbRede.getSelectedItem().toString());
             rs = pst.executeQuery();
 
             while (rs.next()) {
-                String sup_rede = rs.getString("pr_rede");
+                String sup_rede = rs.getString("superv_rede");
+                String cor_rede = rs.getString("cor_rede");
                 String pr_rede = rs.getString("pr_rede");
+                String distrito_rede = rs.getString("distrito_rede");
+                String area_rede = rs.getString("area_rede");
+                String setor_rede = rs.getString("setor_rede");
+
                 sup_rede1.add(sup_rede);
-                
-                
+                cor_rede1.add(cor_rede);
+                pr_rede1.add(pr_rede);
+                distrito_rede1.add(distrito_rede);
+                area_rede1.add(area_rede);
+                setor_rede1.add(setor_rede);
+
             }
 
         } catch (Exception e) {
 
         }
 
-      
-
     }
-    
-    
+
     //Popula Combobox Cor_rede
     public void populaCmbRede() {
 
@@ -107,8 +122,6 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
         String sql = "INSERT INTO tbl_dados ( cor_rede_dados , `cr`, `ce`, `cf`, `entregue`, `porcentagem`, `atrazado`) VALUES ?,?,?,?,?,? ";
 
     }
-
-   
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -365,7 +378,12 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
     private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
         // delete
         System.out.println(sup_rede1);
-
+        System.out.println(cor_rede1);
+        System.out.println(pr_rede1);
+        System.out.println(distrito_rede1);
+        System.out.println(area_rede1);
+        System.out.println(setor_rede1);
+        
     }//GEN-LAST:event_btnDeletarActionPerformed
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed

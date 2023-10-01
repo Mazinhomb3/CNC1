@@ -99,8 +99,6 @@ public final class TelaVisualizar extends javax.swing.JInternalFrame {
 
         try {
 
-            
-
             SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
             //System.out.println(date);
             String date = cmbDataIn.getSelectedItem().toString();

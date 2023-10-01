@@ -6,7 +6,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -112,49 +111,72 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
         SimpleDateFormat formatBR = new SimpleDateFormat("yyyy/MM/dd");
         String data = formatBR.format(Jdata.getDate());
 
-        String sql = "INSERT INTO tbl_porcentagem ( superv_rede,cor_rede,pr_rede,distrito_rede, ce, cr, cf, entregue, porcentagem, atrazado,data_porcent) values (?,?,?,?,?,?,?,?,?,?,?) ";
-        try {
-            pst = conexao.prepareStatement(sql);
+        if (data.isEmpty()) {
 
-            pst.setString(1, dados.get(0).toString());
-            pst.setString(2, dados.get(1).toString());
-            pst.setString(3, dados.get(2).toString());
-            pst.setString(4, dados.get(3).toString());
-            pst.setString(5, txtCE.getText());
-            pst.setString(6, txtCr.getText());
-            pst.setString(7, txtCf.getText());
-            pst.setString(8, txtEntregue.getText());
-            pst.setString(9, txtPorcent.getText());
-            pst.setString(10, txtAtraz.getText());
-            pst.setString(11, data.toString());
-            
-            
-            if (txtCE.getText().isEmpty() || txtCr.getText().isEmpty() || txtCf.getText().isEmpty()) {
-                
-            } else {
+            JOptionPane.showMessageDialog(null, "Campo semana vazio!");
+            return;
+
+        } else {
+
+            String sql = "INSERT INTO tbl_porcentagem ( superv_rede,cor_rede,pr_rede,distrito_rede, ce, cr, cf, entregue, porcentagem, atrazado,data_porcent) values (?,?,?,?,?,?,?,?,?,?,?) ";
+
+            try {
+                pst = conexao.prepareStatement(sql);
+
+                pst.setString(1, dados.get(0).toString());
+                pst.setString(2, dados.get(1).toString());
+                pst.setString(3, dados.get(2).toString());
+                pst.setString(4, dados.get(3).toString());
+                pst.setString(5, txtCE.getText());
+                pst.setString(6, txtCr.getText());
+                pst.setString(7, txtCf.getText());
+                pst.setString(8, txtEntregue.getText());
+                pst.setString(9, txtPorcent.getText());
+                pst.setString(10, txtAtraz.getText());
+                pst.setString(11, data.toString());
+
+                if (txtCE.getText().isEmpty() || txtCr.getText().isEmpty() || txtCf.getText().isEmpty() || txtEntregue.getText().isEmpty() || txtPorcent.getText().isEmpty() || txtAtraz.getText().isEmpty()) {
+
+                    JOptionPane.showMessageDialog(null, "Campos de textos obrigatórios");
+
+                } else {
+
+                    int adicionado = pst.executeUpdate();
+
+                    if (adicionado > 0) {
+
+                        JOptionPane.showMessageDialog(null, "Dados inseridos com sucesso.");
+
+                        txtCE.setText(null);
+                        txtCr.setText(null);
+                        txtCf.setText(null);
+                        txtEntregue.setText(null);
+                        txtPorcent.setText(null);
+                        txtAtraz.setText(null);
+
+                        this.pesquisa_avancada();
+
+                    }
+
+                }
+
+            } catch (Exception e) {
             }
 
-            int adicionado = pst.executeUpdate();
-
-            if (adicionado > 0) {
-
-                JOptionPane.showMessageDialog(null, "Dados inseridos com sucesso.");
-                
-                txtCE.setText(null);
-                txtCr.setText(null);
-                txtCf.setText(null);
-                txtEntregue.setText(null);
-                txtPorcent.setText(null);
-                txtAtraz.setText(null);
-
-                this.pesquisa_avancada();
-
-            } else {
-                System.out.println("dados nao inseridos");
-            }
-
-        } catch (Exception e) {
         }
+    }
+
+    private void porcentagem() {
+
+        String CF = txtCf.getText();
+        double CF1 = Integer.parseInt(CF);
+        String CE = txtCE.getText();
+        double CE1 = Integer.parseInt(CE);
+        double RS = CF1 / CE1;
+        double PC = 100;
+        double RSF = RS * PC;
+
+        txtPorcent.setText(String.format("%.2f", RSF));
 
     }
 
@@ -210,6 +232,14 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel3.setText("SEMANA");
+
+        txtCf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCfActionPerformed(evt);
+            }
+        });
+
+        txtPorcent.setEditable(false);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel4.setText("CE");
@@ -430,6 +460,11 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
 
 
     }//GEN-LAST:event_cmbRedeActionPerformed
+
+    private void txtCfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCfActionPerformed
+        // TODO add your handling code here:
+        porcentagem();
+    }//GEN-LAST:event_txtCfActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

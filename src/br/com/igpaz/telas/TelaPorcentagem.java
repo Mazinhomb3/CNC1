@@ -21,13 +21,11 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
     PreparedStatement pst = null;
     ResultSet rs = null;
     
-  
+    ArrayList sup_rede1 = new ArrayList();
 
     public TelaPorcentagem() {
         initComponents();
         conexao = ModuloConexao.conector();
-        
-        
         
         this.populaCmbRede();
         this.pesquisa_avancada();
@@ -40,6 +38,35 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
 
     }
 
+     public void armazenar() {
+
+        String sql = "select * from tbl_redes where cor_rede = ? limit 1 ";
+
+        try {
+            
+            sup_rede1.clear();
+
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1, cmbRede.getSelectedItem().toString());
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                String sup_rede = rs.getString("pr_rede");
+                String pr_rede = rs.getString("pr_rede");
+                sup_rede1.add(sup_rede);
+                
+                
+            }
+
+        } catch (Exception e) {
+
+        }
+
+      
+
+    }
+    
+    
     //Popula Combobox Cor_rede
     public void populaCmbRede() {
 
@@ -81,31 +108,7 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
 
     }
 
-    public void armazenar() {
-
-        String sql = "select * from tbl_redes where cor_rede = ? limit 1 ";
-
-        try {
-
-            pst = conexao.prepareStatement(sql);
-            pst.setString(1, cmbRede.getSelectedItem().toString());
-            rs = pst.executeQuery();
-
-            while (rs.next()) {
-                String sup_rede = rs.getString("pr_rede");
-                          
-                
-                
-                
-            }
-
-        } catch (Exception e) {
-
-        }
-
-      
-
-    }
+   
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -361,7 +364,7 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
 
     private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
         // delete
- 
+        System.out.println(sup_rede1);
 
     }//GEN-LAST:event_btnDeletarActionPerformed
 

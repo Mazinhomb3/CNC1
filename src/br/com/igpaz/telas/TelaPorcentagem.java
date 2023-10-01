@@ -24,7 +24,6 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
     ResultSet rs = null;
 
     ArrayList dados = new ArrayList();
-   
 
     public TelaPorcentagem() {
         initComponents();
@@ -61,22 +60,21 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
 
     }
 
-   private void armazenar() {
+    private void armazenar() {
 
         String sql = "select * from tbl_redes where cor_rede = ? limit 1 ";
 
         try {
 
             dados.clear();
-            
 
             pst = conexao.prepareStatement(sql);
             pst.setString(1, cmbRede.getSelectedItem().toString());
             rs = pst.executeQuery();
 
             while (rs.next()) {
-                String sup_rede = rs.getString("superv_rede");
-                String cor_rede = rs.getString("cor_rede");
+                String sup_rede = rs.getString("cor_rede");
+                String cor_rede = rs.getString("superv_rede");
                 String pr_rede = rs.getString("pr_rede");
                 String distrito_rede = rs.getString("distrito_rede");
                 String area_rede = rs.getString("area_rede");
@@ -102,8 +100,6 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
 
         try {
             pst = conexao.prepareStatement(sql);
-            //pst.setString(1, cmbRede.getSelectedItem() + "%");
-
             rs = pst.executeQuery();
             tblporcentagem.setModel(DbUtils.resultSetToTableModel(rs));
         } catch (Exception e) {
@@ -113,10 +109,10 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
 
     public void inserirDados() {
 
-        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
-        String data = format.format(Jdata.getDate());
+        SimpleDateFormat formatBR = new SimpleDateFormat("yyyy/MM/dd");
+        String data = formatBR.format(Jdata.getDate());
 
-        String sql = "INSERT INTO tbl_porcentagem ( cor_rede,superv_rede,pr_rede,distrito_rede, cr, ce, cf, entregue, porcentagem, atrazado,data_porcent) VALUES ?,?,?,?,?,?,?,?,?,?,? ";
+        String sql = "INSERT INTO tbl_porcentagem ( superv_rede,cor_rede,pr_rede,distrito_rede, ce, cr, cf, entregue, porcentagem, atrazado,data_porcent) values (?,?,?,?,?,?,?,?,?,?,?) ";
         try {
             pst = conexao.prepareStatement(sql);
 
@@ -130,25 +126,32 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
             pst.setString(8, txtEntregue.getText());
             pst.setString(9, txtPorcent.getText());
             pst.setString(10, txtAtraz.getText());
-            pst.setString(11, data);
+            pst.setString(11, data.toString());
             
-           
             
-           
+            if (txtCE.getText().isEmpty() || txtCr.getText().isEmpty() || txtCf.getText().isEmpty()) {
+                
+            } else {
+            }
+
             int adicionado = pst.executeUpdate();
 
-     
+            if (adicionado > 0) {
 
-             if (adicionado > 0) {
+                JOptionPane.showMessageDialog(null, "Dados inseridos com sucesso.");
+                
+                txtCE.setText(null);
+                txtCr.setText(null);
+                txtCf.setText(null);
+                txtEntregue.setText(null);
+                txtPorcent.setText(null);
+                txtAtraz.setText(null);
 
-                    JOptionPane.showMessageDialog(null, "Dados inseridos com sucesso.");
-                    
+                this.pesquisa_avancada();
 
-                    this.pesquisa_avancada();
-
-                }else{
-              System.out.println("dados nao inseridos");
-             }
+            } else {
+                System.out.println("dados nao inseridos");
+            }
 
         } catch (Exception e) {
         }

@@ -23,12 +23,8 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
     PreparedStatement pst = null;
     ResultSet rs = null;
 
-    ArrayList sup_rede1 = new ArrayList();
-    ArrayList cor_rede1 = new ArrayList();
-    ArrayList pr_rede1 = new ArrayList();
-    ArrayList distrito_rede1 = new ArrayList();
-    ArrayList area_rede1 = new ArrayList();
-    ArrayList setor_rede1 = new ArrayList();
+    ArrayList dados = new ArrayList();
+   
 
     public TelaPorcentagem() {
         initComponents();
@@ -71,12 +67,8 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
 
         try {
 
-            sup_rede1.clear();
-            cor_rede1.clear();
-            pr_rede1.clear();
-            distrito_rede1.clear();
-            area_rede1.clear();
-            setor_rede1.clear();
+            dados.clear();
+            
 
             pst = conexao.prepareStatement(sql);
             pst.setString(1, cmbRede.getSelectedItem().toString());
@@ -90,12 +82,12 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
                 String area_rede = rs.getString("area_rede");
                 String setor_rede = rs.getString("setor_rede");
 
-                sup_rede1.add(sup_rede);
-                cor_rede1.add(cor_rede);
-                pr_rede1.add(pr_rede);
-                distrito_rede1.add(distrito_rede);
-                area_rede1.add(area_rede);
-                setor_rede1.add(setor_rede);
+                dados.add(sup_rede);
+                dados.add(cor_rede);
+                dados.add(pr_rede);
+                dados.add(distrito_rede);
+                dados.add(area_rede);
+                dados.add(setor_rede);
 
             }
 
@@ -128,20 +120,20 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
         try {
             pst = conexao.prepareStatement(sql);
 
-            pst.setString(1, cor_rede1.toString().replaceAll("",""));
-            pst.setString(2, sup_rede1.toString());
-            pst.setString(3, pr_rede1.toString());
-            pst.setString(4, distrito_rede1.toString());
-            pst.setString(5, txtCE.toString());
-            pst.setString(6, txtCr.toString());
-            pst.setString(7, txtCf.toString());
-            pst.setString(8, txtEntregue.toString());
-            pst.setString(9, txtPorcent.toString());
-            pst.setString(10, txtAtraz.toString());
-            pst.setString(11, data.toString());
+            pst.setString(1, dados.get(0).toString());
+            pst.setString(2, dados.get(1).toString());
+            pst.setString(3, dados.get(2).toString());
+            pst.setString(4, dados.get(3).toString());
+            pst.setString(5, txtCE.getText());
+            pst.setString(6, txtCr.getText());
+            pst.setString(7, txtCf.getText());
+            pst.setString(8, txtEntregue.getText());
+            pst.setString(9, txtPorcent.getText());
+            pst.setString(10, txtAtraz.getText());
+            pst.setString(11, data);
             
-            System.out.println(cor_rede1);
-            System.out.println(sup_rede1);
+           
+            
            
             int adicionado = pst.executeUpdate();
 

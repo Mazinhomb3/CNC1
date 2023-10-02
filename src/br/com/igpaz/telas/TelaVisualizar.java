@@ -11,6 +11,8 @@ import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import net.proteanit.sql.DbUtils;
 
 public final class TelaVisualizar extends javax.swing.JInternalFrame {
@@ -25,10 +27,12 @@ public final class TelaVisualizar extends javax.swing.JInternalFrame {
 
         initComponents();
         conexao = ModuloConexao.conector();
-        //Popula as Combobox
-        //this.pesquisa_avancada();
+      
         this.populaCmbRede();
         this.populaCmbDataIn();
+        
+        DefaultTableModel modelo = (DefaultTableModel) tblDados.getModel();
+        tblDados.setRowSorter(new TableRowSorter(modelo));
 
         //Colocar cor nas Labels
         lblDataTela.setForeground(Color.red);

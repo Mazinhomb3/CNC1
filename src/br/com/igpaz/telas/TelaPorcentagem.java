@@ -10,6 +10,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -23,10 +25,14 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
     ResultSet rs = null;
 
     ArrayList dados = new ArrayList();
+    ArrayList alterar = new ArrayList();
 
     public TelaPorcentagem() {
         initComponents();
         conexao = ModuloConexao.conector();
+        
+        DefaultTableModel modelo = (DefaultTableModel) tblporcentagem.getModel();
+        tblporcentagem.setRowSorter(new TableRowSorter(modelo));
 
         this.populaCmbRede();
         this.pesquisa_avancada();
@@ -114,7 +120,7 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
         if (data.isEmpty()) {
 
             JOptionPane.showMessageDialog(null, "Campo semana vazio!");
-            return;
+            
 
         } else {
 
@@ -137,7 +143,7 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
 
                 if (txtCE.getText().isEmpty() || txtCr.getText().isEmpty() || txtCf.getText().isEmpty() || txtEntregue.getText().isEmpty() || txtPorcent.getText().isEmpty() || txtAtraz.getText().isEmpty()) {
 
-                    JOptionPane.showMessageDialog(null, "Campos de textos obrigatórios");
+                    JOptionPane.showMessageDialog(null, "Campos obrigatórios");
 
                 } else {
 
@@ -167,8 +173,14 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
     }
 
     private void porcentagem() {
-
-        String CF = txtCf.getText();
+        
+        if (txtCE.getText().isEmpty() || txtCr.getText().isEmpty() || txtCf.getText().isEmpty() || txtEntregue.getText().isEmpty() || txtAtraz.getText().isEmpty() ) {
+            
+            JOptionPane.showMessageDialog(null, "Prencha todos os dados!");
+            
+        } else {
+            
+            String CF = txtEntregue.getText();
         double CF1 = Integer.parseInt(CF);
         String CE = txtCE.getText();
         double CE1 = Integer.parseInt(CE);
@@ -177,9 +189,26 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
         double RSF = RS * PC;
 
         txtPorcent.setText(String.format("%.2f", RSF));
+            
+        }
+
+        
 
     }
 
+    
+    private void auterarDados(){
+    
+    String sql = "update  tbl_porcentagem set data_lider=?, membros_celula=? , membroscomp_celula=?, convidadospres_celula=?, criancas_celula=?, totalpres_celula=?,mda_celula=?, ge_celula=?, oferta_celula=?, tipo_cel_dados=? where id_lider=?";
+    
+    
+    
+    
+    }
+    
+    
+    
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -233,9 +262,9 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel3.setText("SEMANA");
 
-        txtCf.addActionListener(new java.awt.event.ActionListener() {
+        txtEntregue.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCfActionPerformed(evt);
+                txtEntregueActionPerformed(evt);
             }
         });
 
@@ -439,6 +468,7 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
 
     private void btnAuterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAuterarActionPerformed
         // Auterar
+        armazenar();
 
     }//GEN-LAST:event_btnAuterarActionPerformed
 
@@ -461,10 +491,10 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_cmbRedeActionPerformed
 
-    private void txtCfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCfActionPerformed
+    private void txtEntregueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEntregueActionPerformed
         // TODO add your handling code here:
         porcentagem();
-    }//GEN-LAST:event_txtCfActionPerformed
+    }//GEN-LAST:event_txtEntregueActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -229,13 +229,13 @@
     <Component class="javax.swing.JTextField" name="txtCE">
     </Component>
     <Component class="javax.swing.JTextField" name="txtCf">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtCfActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="txtCr">
     </Component>
     <Component class="javax.swing.JTextField" name="txtEntregue">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtEntregueActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="txtPorcent">
       <Properties>

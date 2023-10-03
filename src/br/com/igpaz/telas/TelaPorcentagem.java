@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,12 +34,10 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
         initComponents();
         conexao = ModuloConexao.conector();
 
-        DefaultTableModel modelo = (DefaultTableModel) tblporcentagem.getModel();
-        tblporcentagem.setRowSorter(new TableRowSorter(modelo));
-
+        //DefaultTableModel modelo = (DefaultTableModel) tblporcentagem.getModel();
+        //tblporcentagem.setRowSorter(new TableRowSorter(modelo));
         this.populaCmbRede();
         this.pesquisa_avancada();
-       
 
         Date data1 = new Date();
         DateFormat formatador = DateFormat.getDateInstance(DateFormat.SHORT);
@@ -103,76 +102,61 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
 
     }
 
-    private void pesquisa_avancada() {
-        String sql = "Select id AS ID, cor_rede as REDE,superv_rede AS SUPERV,pr_rede AS PR_REDE,distrito_rede AS DISTRITO,ce AS EXISTENTES, cr AS CRIANCA, cf AS FALTANDO, entregue AS ENTREGUE, porcentagem AS PORCENTAGEM, atrazado AS ATRAZADO,data_porcent as DATA from tbl_porcentagem ";
-
-        try {
-            pst = conexao.prepareStatement(sql);
-            rs = pst.executeQuery();
-
-            tblporcentagem.setModel(DbUtils.resultSetToTableModel(rs));
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
-    }
-
     public void inserirDados() {
 
-        SimpleDateFormat formatBR = new SimpleDateFormat("yyyy/MM/dd");
-        String data = formatBR.format(Jdata.getDate());
+        String sql = "INSERT INTO tbl_porcentagem ( cor_rede,superv_rede,pr_rede,distrito_rede, ce, cr, cf, entregue, porcentagem,atrazado,data_porcent) values (?,?,?,?,?,?,?,?,?,?,?) ";
 
-        if (data.isEmpty()) {
+        try {
+            
+            String databr1 = txtDate2.getText();
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            Date dataInt = format.parse(databr1);
+            DateFormat formatado = new SimpleDateFormat("yyyy/MM/dd");
+            String DataFormatada = formatado.format(dataInt);
+            System.out.println(DataFormatada);
 
-            JOptionPane.showMessageDialog(null, "Campo semana vazio!");
+            pst = conexao.prepareStatement(sql);
 
-        } else {
+            pst.setString(1, dados.get(0).toString());
+            pst.setString(2, dados.get(1).toString());
+            pst.setString(3, dados.get(2).toString());
+            pst.setString(4, dados.get(3).toString());
+            pst.setString(5, txtCE.getText());
+            pst.setString(6, txtCr.getText());
+            pst.setString(7, txtCf.getText());
+            pst.setString(8, txtEntregue.getText());
+            pst.setString(9, txtPorcent.getText());
+            pst.setString(10, txtAtraz.getText());
+            pst.setString(11, DataFormatada);
 
-            String sql = "INSERT INTO tbl_porcentagem ( cor_rede,superv_rede,pr_rede,distrito_rede, ce, cr, cf, entregue, porcentagem, atrazado,data_porcent) values (?,?,?,?,?,?,?,?,?,?,?) ";
+            if (txtCE.getText().isEmpty() || txtCr.getText().isEmpty() || txtCf.getText().isEmpty() || txtEntregue.getText().isEmpty() || txtPorcent.getText().isEmpty() || txtAtraz.getText().isEmpty() || txtDate2.getText().isEmpty()) {
 
-            try {
-                pst = conexao.prepareStatement(sql);
+                JOptionPane.showMessageDialog(null, "Campos obrigatórios");
 
-                pst.setString(1, dados.get(0).toString());
-                pst.setString(2, dados.get(1).toString());
-                pst.setString(3, dados.get(2).toString());
-                pst.setString(4, dados.get(3).toString());
-                pst.setString(5, txtCE.getText());
-                pst.setString(6, txtCr.getText());
-                pst.setString(7, txtCf.getText());
-                pst.setString(8, txtEntregue.getText());
-                pst.setString(9, txtPorcent.getText());
-                pst.setString(10, txtAtraz.getText());
-                pst.setString(11, data.toString());
+            } else {
+                 System.out.println(DataFormatada);
+                int adicionado = pst.executeUpdate();
 
-                if (txtCE.getText().isEmpty() || txtCr.getText().isEmpty() || txtCf.getText().isEmpty() || txtEntregue.getText().isEmpty() || txtPorcent.getText().isEmpty() || txtAtraz.getText().isEmpty()) {
+                if (adicionado > 0) {
 
-                    JOptionPane.showMessageDialog(null, "Campos obrigatórios");
+                    JOptionPane.showMessageDialog(null, "Dados inseridos com sucesso.");
 
-                } else {
+                    txtCE.setText(null);
+                    txtCr.setText(null);
+                    txtCf.setText(null);
+                    txtEntregue.setText(null);
+                    txtPorcent.setText(null);
+                    txtAtraz.setText(null);
 
-                    int adicionado = pst.executeUpdate();
-
-                    if (adicionado > 0) {
-
-                        JOptionPane.showMessageDialog(null, "Dados inseridos com sucesso.");
-
-                        txtCE.setText(null);
-                        txtCr.setText(null);
-                        txtCf.setText(null);
-                        txtEntregue.setText(null);
-                        txtPorcent.setText(null);
-                        txtAtraz.setText(null);
-
-                        this.pesquisa_avancada();
-
-                    }
+                    this.pesquisa_avancada();
 
                 }
 
-            } catch (Exception e) {
             }
 
+        } catch (Exception e) {
         }
+
     }
 
     private void porcentagem() {
@@ -197,31 +181,33 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
 
     }
 
-    private void alterarDados() {
+    private void alterardados() {
+
+        String sql = "update  tbl_porcentagem set cor_rede=?, membros_celula=? , membroscomp_celula=?, convidadospres_celula=?, criancas_celula=?, totalpres_celula=?,mda_celula=?, ge_celula=?, oferta_celula=?, tipo_cel_dados=?, data_porcentegem=? where id_lider=?";
 
         SimpleDateFormat formatBR = new SimpleDateFormat("yyyy/MM/dd");
-        String data = formatBR.format(Jdata.getDate());
-
-        String sql = "update  tbl_porcentagem set cor_rede=?, membros_celula=? , membroscomp_celula=?, convidadospres_celula=?, criancas_celula=?, totalpres_celula=?,mda_celula=?, ge_celula=?, oferta_celula=?, tipo_cel_dados=? where id_lider=?";
+        String data = formatBR.format(txtDate2.getText());
 
         try {
 
-            if (txtCE.getText().isEmpty() || txtCr.getText().isEmpty() || txtCf.getText().isEmpty() || txtEntregue.getText().isEmpty() || txtPorcent.getText().isEmpty() || txtAtraz.getText().isEmpty()) {
+            pst = conexao.prepareStatement(sql);
 
-                pst = conexao.prepareStatement(sql);
+            pst.setString(1, cmbRede.getSelectedItem().toString());
+            pst.setString(2, alterar.get(0).toString());
+            pst.setString(3, alterar.get(1).toString());
+            pst.setString(4, alterar.get(2).toString());
+            pst.setString(5, txtCE.getText());
+            pst.setString(6, txtCr.getText());
+            pst.setString(7, txtCf.getText());
+            pst.setString(8, txtEntregue.getText());
+            pst.setString(9, txtPorcent.getText());
+            pst.setString(10, txtAtraz.getText());
+            pst.setString(11, data.toString());
+            pst.setString(12, lblId.getText());
 
-                pst.setString(1, cmbRede.getSelectedItem().toString());
-                pst.setString(2, alterar.get(0).toString());
-                pst.setString(3, alterar.get(1).toString());
-                pst.setString(4, alterar.get(2).toString());
-                pst.setString(5, txtCE.getText());
-                pst.setString(6, txtCr.getText());
-                pst.setString(7, txtCf.getText());
-                pst.setString(8, txtEntregue.getText());
-                pst.setString(9, txtPorcent.getText());
-                pst.setString(10, txtAtraz.getText());
-                pst.setString(11, data.toString());
-                pst.setString(12, lblId.getText());
+            if (txtCE.getText().isEmpty() || txtCr.getText().isEmpty() || txtCf.getText().isEmpty() || txtEntregue.getText().isEmpty() || txtPorcent.getText().isEmpty() || txtAtraz.getText().isEmpty() || data.isEmpty()) {
+
+                JOptionPane.showMessageDialog(null, "Dados Obrigatórios");
 
             } else {
 
@@ -249,7 +235,20 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
 
     }
 
-    public void setacampos() {
+    private void pesquisa_avancada() {
+        String sql = "Select id AS ID, cor_rede as REDE,superv_rede AS SUPERV,pr_rede AS PR_REDE,distrito_rede AS DISTRITO,ce AS EXISTENTES, cr AS CRIANCA, cf AS FALTANDO, entregue AS ENTREGUE, porcentagem AS PORCENTAGEM, atrazado AS ATRAZADO,data_porcent as DATA from tbl_porcentagem ORDER by ce DESC ";
+
+        try {
+            pst = conexao.prepareStatement(sql);
+            rs = pst.executeQuery();
+
+            tblporcentagem.setModel(DbUtils.resultSetToTableModel(rs));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+
+    private void setacampos() {
 
         alterar.clear();
 
@@ -266,6 +265,7 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
         txtEntregue.setText(tblporcentagem.getModel().getValueAt(setar, 8).toString());
         txtPorcent.setText(tblporcentagem.getModel().getValueAt(setar, 9).toString());
         txtAtraz.setText(tblporcentagem.getModel().getValueAt(setar, 10).toString());
+        txtDate2.setText(tblporcentagem.getModel().getValueAt(setar, 11).toString());
 
         alterar.add(superv_rede);
         alterar.add(pr_rede);
@@ -294,7 +294,6 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
         jLabel8 = new javax.swing.JLabel();
         txtAtraz = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        Jdata = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblporcentagem = new javax.swing.JTable();
         btnPesquisar = new javax.swing.JButton();
@@ -302,6 +301,7 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
         btnDeletar = new javax.swing.JButton();
         btnAdicionar = new javax.swing.JButton();
         lblId = new javax.swing.JLabel();
+        txtDate2 = new javax.swing.JFormattedTextField();
 
         setClosable(true);
         setIconifiable(true);
@@ -409,6 +409,12 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
 
         lblId.setText("lblId");
 
+        try {
+            txtDate2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -427,56 +433,59 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
                         .addGap(117, 117, 117)
                         .addComponent(lblData))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(104, 104, 104)
-                        .addComponent(cmbRede, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(196, 196, 196)
-                        .addComponent(Jdata, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(19, 19, 19)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(12, 12, 12)
-                                        .addComponent(jLabel4))
-                                    .addComponent(txtCE, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(6, 6, 6)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(14, 14, 14)
-                                        .addComponent(jLabel5))
-                                    .addComponent(txtCr, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(6, 6, 6)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(14, 14, 14)
-                                        .addComponent(jLabel6))
-                                    .addComponent(txtCf, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel7)
-                                    .addComponent(txtEntregue, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(11, 11, 11)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(22, 22, 22)
-                                        .addComponent(jLabel8))
-                                    .addComponent(txtPorcent, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(24, 24, 24)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel9)
-                                    .addComponent(txtAtraz, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addComponent(btnAdicionar)
-                                .addGap(6, 6, 6)
-                                .addComponent(btnPesquisar)
-                                .addGap(6, 6, 6)
-                                .addComponent(btnAuterar)
-                                .addGap(6, 6, 6)
-                                .addComponent(btnDeletar))
-                            .addGroup(layout.createSequentialGroup()
                                 .addGap(12, 12, 12)
-                                .addComponent(lblId))))
+                                .addComponent(lblId))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(12, 12, 12)
+                                                .addComponent(jLabel4))
+                                            .addComponent(txtCE, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(6, 6, 6)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(14, 14, 14)
+                                                .addComponent(jLabel5))
+                                            .addComponent(txtCr, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(6, 6, 6)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(14, 14, 14)
+                                                .addComponent(jLabel6))
+                                            .addComponent(txtCf, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel7)
+                                            .addComponent(txtEntregue, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(11, 11, 11)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(22, 22, 22)
+                                                .addComponent(jLabel8))
+                                            .addComponent(txtPorcent, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(24, 24, 24)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel9)
+                                            .addComponent(txtAtraz, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(85, 85, 85)
+                                        .addComponent(cmbRede, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtDate2, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btnAdicionar)
+                                        .addGap(6, 6, 6)
+                                        .addComponent(btnPesquisar)
+                                        .addGap(6, 6, 6)
+                                        .addComponent(btnAuterar)
+                                        .addGap(6, 6, 6)
+                                        .addComponent(btnDeletar))))))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 728, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
@@ -496,9 +505,9 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
                     .addComponent(jLabel3)
                     .addComponent(jLabel2))
                 .addGap(6, 6, 6)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cmbRede, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Jdata, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtDate2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -548,7 +557,7 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
     private void btnAuterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAuterarActionPerformed
         // Auterar
         armazenar();
-        alterarDados();
+        alterardados();
 
     }//GEN-LAST:event_btnAuterarActionPerformed
 
@@ -566,8 +575,8 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
         // TODO add your handling code here:
+        armazenar();
         inserirDados();
-
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
     private void txtEntregueKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEntregueKeyPressed
@@ -600,7 +609,6 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.toedter.calendar.JDateChooser Jdata;
     private javax.swing.JButton btnAdicionar;
     private javax.swing.JButton btnAuterar;
     private javax.swing.JButton btnDeletar;
@@ -623,6 +631,7 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtCE;
     private javax.swing.JTextField txtCf;
     private javax.swing.JTextField txtCr;
+    private javax.swing.JFormattedTextField txtDate2;
     private javax.swing.JTextField txtEntregue;
     private javax.swing.JTextField txtPorcent;
     // End of variables declaration//GEN-END:variables

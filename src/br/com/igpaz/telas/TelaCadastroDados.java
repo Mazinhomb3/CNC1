@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import jdk.nashorn.internal.runtime.StoredScript;
 
 public class TelaCadastroDados extends javax.swing.JInternalFrame {
 
@@ -102,19 +103,29 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
 
         String sql = "select * from tbl_redes where lider_cel_rede like ?";
         try {
-            pst = conexao.prepareStatement(sql);
-            pst.setString(1, txtLider.getText() + "%");
-            rs = pst.executeQuery();
-            while (rs.next()) {
-                txtIdLider.setText(rs.getString("cod_lider_rede"));
-                txtSupRede.setText(rs.getString("superv_rede"));
-                txtCorRede.setText(rs.getString("cor_rede"));
-                txtPrRede.setText(rs.getString("pr_rede"));
-                txtDistrito.setText(rs.getString("distrito_rede"));
-                txtArea.setText(rs.getString("area_rede"));
-                txtSetor.setText(rs.getString("setor_rede"));
-                //txtLider.setText(rs.getString("lider_cel_rede"));
-                txtId.setText(rs.getString("id_rede"));
+
+            if (txtLider.getText().isEmpty()) {
+
+                JOptionPane.showMessageDialog(null, "Por favor digite um nome!");
+               
+
+            } else {
+
+                pst = conexao.prepareStatement(sql);
+                pst.setString(1, txtLider.getText() + "%");
+                rs = pst.executeQuery();
+                while (rs.next()) {
+                    txtIdLider.setText(rs.getString("cod_lider_rede"));
+                    txtSupRede.setText(rs.getString("superv_rede"));
+                    txtCorRede.setText(rs.getString("cor_rede"));
+                    txtPrRede.setText(rs.getString("pr_rede"));
+                    txtDistrito.setText(rs.getString("distrito_rede"));
+                    txtArea.setText(rs.getString("area_rede"));
+                    txtSetor.setText(rs.getString("setor_rede"));
+                    //txtLider.setText(rs.getString("lider_cel_rede"));
+                    txtId.setText(rs.getString("id_rede"));
+
+                }
 
             }
 
@@ -197,10 +208,8 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
 
             } else {
 
-//esse codigo atualiza o banco de dados
                 int adicionado = pst.executeUpdate();
-//A llinha abaixo serve de apoio ao codigo           
-// System.out.println(adicionado);
+
                 if (adicionado > 0) {
 
                     JOptionPane.showMessageDialog(null, "Dados inseridos com sucesso.");
@@ -265,6 +274,48 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
         }
     }
 
+    private void compararDados() {
+
+        String sql = "select * from tbl_dados where cod_lider_rede = ?  and data_lider = ?";
+
+        try {
+
+            if (txtIdLider.getText().isEmpty() || txtDataBrasil.getText().isEmpty()) {
+
+                JOptionPane.showMessageDialog(null, "Campo Cod. célula Vazio!");
+                return;
+
+            } else {
+
+                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                String date = txtDataBrasil.getText().toString();
+                Date date1 = format.parse(date);
+                DateFormat formatBR = new SimpleDateFormat("yyyy-MM-dd");
+                String dataFormatadaIn = formatBR.format(date1);
+
+                pst = conexao.prepareStatement(sql);
+                pst.setString(1, txtIdLider.getText().toString());
+                pst.setString(2, dataFormatadaIn);
+
+                rs = pst.executeQuery();
+
+            }
+
+            if (rs.next()) {
+
+                JOptionPane.showMessageDialog(null, "Dados ja digitados!");
+
+            } else {
+
+                adicionar();
+
+            }
+
+        } catch (Exception e) {
+        }
+
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -297,7 +348,6 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
         jLabel8 = new javax.swing.JLabel();
         txtLider = new javax.swing.JTextField();
         lblDistrito5 = new javax.swing.JLabel();
-        txtDataBrasil = new javax.swing.JFormattedTextField();
         jPanel1 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         cmbGes = new javax.swing.JComboBox<>();
@@ -324,6 +374,7 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         txtOferta = new javax.swing.JFormattedTextField();
+        txtDataBrasil = new javax.swing.JFormattedTextField();
 
         txtCodPastor.setEditable(false);
 
@@ -440,12 +491,6 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
 
         lblDistrito5.setText("DIA DA CÉLULA:");
 
-        try {
-            txtDataBrasil.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-
         jPanel1.setBackground(new java.awt.Color(255, 153, 51));
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel1.setForeground(new java.awt.Color(255, 153, 51));
@@ -454,7 +499,7 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
         jLabel10.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         jLabel10.setText("Membros total da célula");
         jPanel1.add(jLabel10);
-        jLabel10.setBounds(50, 10, 118, 14);
+        jLabel10.setBounds(50, 10, 124, 13);
 
         cmbGes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", " " }));
         cmbGes.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -463,12 +508,12 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
             }
         });
         jPanel1.add(cmbGes);
-        cmbGes.setBounds(170, 330, 50, 22);
+        cmbGes.setBounds(170, 330, 50, 23);
 
         jLabel11.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         jLabel11.setText("TOTAL DE PRESENTES");
         jPanel1.add(jLabel11);
-        jLabel11.setBounds(50, 250, 120, 14);
+        jLabel11.setBounds(50, 250, 120, 13);
         jPanel1.add(jSeparator1);
         jSeparator1.setBounds(40, 240, 200, 0);
         jPanel1.add(jSeparator2);
@@ -476,27 +521,27 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
 
         cmbMtc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", " " }));
         jPanel1.add(cmbMtc);
-        cmbMtc.setBounds(50, 30, 60, 22);
+        cmbMtc.setBounds(50, 30, 60, 23);
         jPanel1.add(jSeparator3);
         jSeparator3.setBounds(40, 120, 200, 10);
 
         cmbMcp.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", " " }));
         jPanel1.add(cmbMcp);
-        cmbMcp.setBounds(50, 90, 60, 22);
+        cmbMcp.setBounds(50, 90, 60, 23);
 
         jLabel12.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         jLabel12.setText("Membros compromissados presentes");
         jPanel1.add(jLabel12);
-        jLabel12.setBounds(50, 70, 190, 14);
+        jLabel12.setBounds(50, 70, 190, 13);
 
         jLabel13.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         jLabel13.setText("Convidados Presentes");
         jPanel1.add(jLabel13);
-        jLabel13.setBounds(50, 130, 190, 14);
+        jLabel13.setBounds(50, 130, 190, 13);
 
         cmbConvPres.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", " " }));
         jPanel1.add(cmbConvPres);
-        cmbConvPres.setBounds(50, 150, 60, 22);
+        cmbConvPres.setBounds(50, 150, 60, 23);
         jPanel1.add(jSeparator4);
         jSeparator4.setBounds(40, 240, 200, 10);
 
@@ -507,24 +552,24 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
             }
         });
         jPanel1.add(cmbCrianca);
-        cmbCrianca.setBounds(50, 210, 60, 22);
+        cmbCrianca.setBounds(50, 210, 60, 23);
 
         jLabel14.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         jLabel14.setText("Crianças");
         jPanel1.add(jLabel14);
-        jLabel14.setBounds(50, 190, 190, 14);
+        jLabel14.setBounds(50, 190, 190, 13);
 
         cmbMda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", " " }));
         jPanel1.add(cmbMda);
-        cmbMda.setBounds(70, 330, 50, 22);
+        cmbMda.setBounds(70, 330, 50, 23);
 
         jLabel15.setText("MDA'S ");
         jPanel1.add(jLabel15);
-        jLabel15.setBounds(80, 310, 40, 16);
+        jLabel15.setBounds(80, 310, 40, 17);
 
         jLabel16.setText("GE'S");
         jPanel1.add(jLabel16);
-        jLabel16.setBounds(180, 310, 48, 16);
+        jLabel16.setBounds(180, 310, 48, 17);
         jPanel1.add(jSeparator5);
         jSeparator5.setBounds(40, 180, 200, 10);
 
@@ -562,6 +607,12 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
             }
         });
 
+        try {
+            txtDataBrasil.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -584,10 +635,13 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
                         .addComponent(jLabel17)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtOferta, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(130, 130, 130)
-                        .addComponent(lblDistrito5)
-                        .addGap(3, 3, 3)
-                        .addComponent(txtDataBrasil, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(130, 130, 130)
+                                .addComponent(lblDistrito5))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(121, 121, 121)
+                                .addComponent(txtDataBrasil, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -646,23 +700,26 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblData)
-                    .addComponent(lblPrenchaCampos))
-                .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lblDistrito4)
-                        .addComponent(txtIdLider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel9)
-                        .addComponent(jLabel17))
-                    .addComponent(txtOferta, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(lblDistrito5))
-                    .addComponent(txtDataBrasil, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(10, 10, 10)
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblData)
+                            .addComponent(lblPrenchaCampos))
+                        .addGap(31, 31, 31)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblDistrito4)
+                                .addComponent(txtIdLider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel9)
+                                .addComponent(jLabel17))
+                            .addComponent(txtOferta, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(35, 35, 35)
+                        .addComponent(txtDataBrasil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblDistrito5)))
+                .addGap(13, 13, 13)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -713,22 +770,17 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
         deletar();
     }//GEN-LAST:event_btnDeletarActionPerformed
 
-    private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
-
-        // TODO add your handling code here:
-        adicionar();
-
-    }//GEN-LAST:event_btnAdicionarActionPerformed
-
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
         // limpar
         Limpar();
+
     }//GEN-LAST:event_btnLimparActionPerformed
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
         // TODO add your handling code here:
 
         pesquisar();
+
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     private void txtDateFormatedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDateFormatedActionPerformed
@@ -781,11 +833,11 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
         switch (evt.getKeyCode()) {
             case KeyEvent.VK_TAB:
                 somar();
-                adicionar();
+                compararDados();
                 break;
             case KeyEvent.VK_ENTER:
                 somar();
-                adicionar();
+                compararDados();
                 break;
             default:
                 EventQueue.invokeLater(new Runnable() {
@@ -822,20 +874,25 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         switch (evt.getKeyCode()) {
             case KeyEvent.VK_ENTER:
-            cmbMda.requestFocus();
-            break;
+                cmbMda.requestFocus();
+                break;
             case KeyEvent.VK_TAB:
-            cmbMda.requestFocus();
-            break;
+                cmbMda.requestFocus();
+                break;
             default:
-            EventQueue.invokeLater(new Runnable() {
-                @Override
-                public void run() {
+                EventQueue.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
 
-                }
-            });
+                    }
+                });
         }
     }//GEN-LAST:event_txtOfertaKeyPressed
+
+    private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
+        // TODO add your handling code here:
+        compararDados();
+    }//GEN-LAST:event_btnAdicionarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

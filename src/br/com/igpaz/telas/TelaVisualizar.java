@@ -27,12 +27,12 @@ public final class TelaVisualizar extends javax.swing.JInternalFrame {
 
         initComponents();
         conexao = ModuloConexao.conector();
-      
+
         this.populaCmbRede();
         this.populaCmbDataIn();
-        
-        DefaultTableModel modelo = (DefaultTableModel) tblDados.getModel();
-        tblDados.setRowSorter(new TableRowSorter(modelo));
+
+        //DefaultTableModel modelo = (DefaultTableModel) tblDados.getModel();
+        //tblDados.setRowSorter(new TableRowSorter(modelo));
 
         //Colocar cor nas Labels
         lblDataTela.setForeground(Color.red);
@@ -104,8 +104,9 @@ public final class TelaVisualizar extends javax.swing.JInternalFrame {
         try {
 
             SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-            //System.out.println(date);
+
             String date = cmbDataIn.getSelectedItem().toString();
+            System.out.println(date);
             Date date1 = format.parse(date);
             DateFormat formatBR = new SimpleDateFormat("yyyy-MM-dd");
             String dataFormatadaIn = formatBR.format(date1);
@@ -548,7 +549,7 @@ public final class TelaVisualizar extends javax.swing.JInternalFrame {
 
     private void cmbCorRedeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cmbCorRedeMouseClicked
         // TODO add your handling code here:
-        pesquisa_avancada();
+        //pesquisa_avancada();
     }//GEN-LAST:event_cmbCorRedeMouseClicked
 
 

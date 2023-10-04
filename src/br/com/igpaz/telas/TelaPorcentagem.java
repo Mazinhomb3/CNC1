@@ -8,13 +8,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -28,7 +25,6 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
     ResultSet rs = null;
 
     ArrayList dados = new ArrayList();
-    ArrayList alterar = new ArrayList();
 
     public TelaPorcentagem() {
         initComponents();
@@ -107,7 +103,7 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
         String sql = "INSERT INTO tbl_porcentagem ( cor_rede,superv_rede,pr_rede,distrito_rede, ce, cr, cf, entregue, porcentagem,atrazado,data_porcent) values (?,?,?,?,?,?,?,?,?,?,?) ";
 
         try {
-            
+
             String databr1 = txtDate2.getText();
             SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
             Date dataInt = format.parse(databr1);
@@ -134,7 +130,7 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null, "Campos obrigatórios");
 
             } else {
-                 System.out.println(DataFormatada);
+                System.out.println(DataFormatada);
                 int adicionado = pst.executeUpdate();
 
                 if (adicionado > 0) {
@@ -147,6 +143,7 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
                     txtEntregue.setText(null);
                     txtPorcent.setText(null);
                     txtAtraz.setText(null);
+                    txtDate2.setText(null);
 
                     this.pesquisa_avancada();
 
@@ -183,31 +180,30 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
 
     private void alterardados() {
 
-        String sql = "update  tbl_porcentagem set cor_rede=?, membros_celula=? , membroscomp_celula=?, convidadospres_celula=?, criancas_celula=?, totalpres_celula=?,mda_celula=?, ge_celula=?, oferta_celula=?, tipo_cel_dados=?, data_porcentegem=? where id_lider=?";
-
-        SimpleDateFormat formatBR = new SimpleDateFormat("yyyy/MM/dd");
-        String data = formatBR.format(txtDate2.getText());
+        String sql = "update  tbl_porcentagem set ce=?, cr=?, cf=?, entregue=?, porcentagem=?, atrazado=?, data_porcent=?  where id=?";
 
         try {
 
+            String databr1 = txtDate2.getText();
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            Date dataInt = format.parse(databr1);
+            DateFormat formatado = new SimpleDateFormat("yyyy/MM/dd");
+            String DataFormatada = formatado.format(dataInt);
+
             pst = conexao.prepareStatement(sql);
 
-            pst.setString(1, cmbRede.getSelectedItem().toString());
-            pst.setString(2, alterar.get(0).toString());
-            pst.setString(3, alterar.get(1).toString());
-            pst.setString(4, alterar.get(2).toString());
-            pst.setString(5, txtCE.getText());
-            pst.setString(6, txtCr.getText());
-            pst.setString(7, txtCf.getText());
-            pst.setString(8, txtEntregue.getText());
-            pst.setString(9, txtPorcent.getText());
-            pst.setString(10, txtAtraz.getText());
-            pst.setString(11, data.toString());
-            pst.setString(12, lblId.getText());
+            pst.setString(1, txtCE.getText());
+            pst.setString(2, txtCr.getText());
+            pst.setString(3, txtCf.getText());
+            pst.setString(4, txtEntregue.getText());
+            pst.setString(5, txtPorcent.getText());
+            pst.setString(6, txtAtraz.getText());
+            pst.setString(7, DataFormatada);
+            pst.setString(8, lblId.getText());
 
-            if (txtCE.getText().isEmpty() || txtCr.getText().isEmpty() || txtCf.getText().isEmpty() || txtEntregue.getText().isEmpty() || txtPorcent.getText().isEmpty() || txtAtraz.getText().isEmpty() || data.isEmpty()) {
+            if (txtCE.getText().isEmpty() || txtCr.getText().isEmpty() || txtCf.getText().isEmpty() || txtEntregue.getText().isEmpty() || txtPorcent.getText().isEmpty() || txtAtraz.getText().isEmpty() || txtDate2.getText().isEmpty()) {
 
-                JOptionPane.showMessageDialog(null, "Dados Obrigatórios");
+                JOptionPane.showMessageDialog(null, "Campos obrigatórios");
 
             } else {
 
@@ -215,7 +211,7 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
 
                 if (adicionado > 0) {
 
-                    JOptionPane.showMessageDialog(null, "Dados alterados com sucesso!");
+                    JOptionPane.showMessageDialog(null, "Dados inseridos com sucesso.");
 
                     txtCE.setText(null);
                     txtCr.setText(null);
@@ -223,6 +219,7 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
                     txtEntregue.setText(null);
                     txtPorcent.setText(null);
                     txtAtraz.setText(null);
+                    txtDate2.setText(null);
 
                     this.pesquisa_avancada();
 
@@ -250,26 +247,73 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
 
     private void setacampos() {
 
-        alterar.clear();
+        try {
 
-        int setar = tblporcentagem.getSelectedRow();
+            int setar = tblporcentagem.getSelectedRow();
 
-        lblId.setText(tblporcentagem.getModel().getValueAt(setar, 0).toString());
-        cmbRede.addItem(tblporcentagem.getModel().getValueAt(setar, 1).toString());
-        String superv_rede = tblporcentagem.getModel().getValueAt(setar, 2).toString();
-        String pr_rede = tblporcentagem.getModel().getValueAt(setar, 3).toString();
-        String distrito_rede = tblporcentagem.getModel().getValueAt(setar, 4).toString();
-        txtCE.setText(tblporcentagem.getModel().getValueAt(setar, 5).toString());
-        txtCr.setText(tblporcentagem.getModel().getValueAt(setar, 6).toString());
-        txtCf.setText(tblporcentagem.getModel().getValueAt(setar, 7).toString());
-        txtEntregue.setText(tblporcentagem.getModel().getValueAt(setar, 8).toString());
-        txtPorcent.setText(tblporcentagem.getModel().getValueAt(setar, 9).toString());
-        txtAtraz.setText(tblporcentagem.getModel().getValueAt(setar, 10).toString());
-        txtDate2.setText(tblporcentagem.getModel().getValueAt(setar, 11).toString());
+            lblId.setText(tblporcentagem.getModel().getValueAt(setar, 0).toString());
+            cmbRede.addItem(tblporcentagem.getModel().getValueAt(setar, 1).toString());
+            String superv_rede = tblporcentagem.getModel().getValueAt(setar, 2).toString();
+            String pr_rede = tblporcentagem.getModel().getValueAt(setar, 3).toString();
+            String distrito_rede = tblporcentagem.getModel().getValueAt(setar, 4).toString();
+            txtCE.setText(tblporcentagem.getModel().getValueAt(setar, 5).toString());
+            txtCr.setText(tblporcentagem.getModel().getValueAt(setar, 6).toString());
+            txtCf.setText(tblporcentagem.getModel().getValueAt(setar, 7).toString());
+            txtEntregue.setText(tblporcentagem.getModel().getValueAt(setar, 8).toString());
+            txtPorcent.setText(tblporcentagem.getModel().getValueAt(setar, 9).toString());
+            txtAtraz.setText(tblporcentagem.getModel().getValueAt(setar, 10).toString());
 
-        alterar.add(superv_rede);
-        alterar.add(pr_rede);
-        alterar.add(distrito_rede);
+            String date = tblporcentagem.getModel().getValueAt(setar, 11).toString();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            Date date1 = format.parse(date);
+            DateFormat formatBR = new SimpleDateFormat("dd/MM/yyyy");
+            String dataFormatadaIn = formatBR.format(date1);
+            txtDate2.setText(dataFormatadaIn);
+
+            //System.out.println(dataFormatadaIn);
+        } catch (Exception e) {
+        }
+
+    }
+
+    private void deletar() {
+
+        String sql = "delete from tbl_porcentagem where id=?";
+
+        try {
+
+            int confirma = JOptionPane.showConfirmDialog(null, "Tem certeza da remoção desse cadastro.", "Atenção", JOptionPane.YES_NO_OPTION);
+
+            if (JOptionPane.YES_OPTION == confirma) {
+
+                pst = conexao.prepareStatement(sql);
+
+                pst.setString(1, lblId.getText().toString());
+
+                int apagado = pst.executeUpdate();
+
+                if (apagado > 0) {
+
+                    JOptionPane.showMessageDialog(null, "Cadastro removido com sucesso.");
+
+                    txtCE.setText(null);
+                    txtCr.setText(null);
+                    txtCf.setText(null);
+                    txtEntregue.setText(null);
+                    txtPorcent.setText(null);
+                    txtAtraz.setText(null);
+                    txtDate2.setText(null);
+
+                    this.pesquisa_avancada();
+                }
+
+            }
+
+        } catch (Exception e) {
+
+            JOptionPane.showMessageDialog(null, "Não foi possivel encontrar o ID");
+
+        }
 
     }
 
@@ -301,7 +345,7 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
         btnDeletar = new javax.swing.JButton();
         btnAdicionar = new javax.swing.JButton();
         lblId = new javax.swing.JLabel();
-        txtDate2 = new javax.swing.JFormattedTextField();
+        txtDate2 = new javax.swing.JTextField();
 
         setClosable(true);
         setIconifiable(true);
@@ -409,22 +453,10 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
 
         lblId.setText("lblId");
 
-        try {
-            txtDate2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(164, 164, 164)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel3)
-                .addGap(190, 190, 190))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -476,18 +508,25 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
                                         .addGap(85, 85, 85)
                                         .addComponent(cmbRede, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtDate2, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(btnAdicionar)
-                                        .addGap(6, 6, 6)
-                                        .addComponent(btnPesquisar)
-                                        .addGap(6, 6, 6)
-                                        .addComponent(btnAuterar)
-                                        .addGap(6, 6, 6)
-                                        .addComponent(btnDeletar))))))
+                                .addComponent(btnAdicionar)
+                                .addGap(6, 6, 6)
+                                .addComponent(btnPesquisar)
+                                .addGap(6, 6, 6)
+                                .addComponent(btnAuterar)
+                                .addGap(6, 6, 6)
+                                .addComponent(btnDeletar))))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 728, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(164, 164, 164)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addGap(190, 190, 190))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(txtDate2, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(160, 160, 160))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -505,7 +544,7 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
                     .addComponent(jLabel3)
                     .addComponent(jLabel2))
                 .addGap(6, 6, 6)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cmbRede, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtDate2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
@@ -563,6 +602,7 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
 
     private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
         // delete
+        deletar();
 
 
     }//GEN-LAST:event_btnDeletarActionPerformed
@@ -631,7 +671,7 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtCE;
     private javax.swing.JTextField txtCf;
     private javax.swing.JTextField txtCr;
-    private javax.swing.JFormattedTextField txtDate2;
+    private javax.swing.JTextField txtDate2;
     private javax.swing.JTextField txtEntregue;
     private javax.swing.JTextField txtPorcent;
     // End of variables declaration//GEN-END:variables

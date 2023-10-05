@@ -32,6 +32,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="MenCadLidCel">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Alt+L"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Cad. Lider C&#xe9;lula"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
@@ -44,6 +47,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="menCadastroDados">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Alt+D"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Cad.  Dados C&#xe9;lula"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
@@ -57,6 +63,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="menVisualizarDados">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Alt+V"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Visualizar Dados"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
@@ -69,6 +78,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="menPorcentagem">
               <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Alt+P"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Porcentagem"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>

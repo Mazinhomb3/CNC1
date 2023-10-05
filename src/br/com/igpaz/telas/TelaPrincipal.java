@@ -95,6 +95,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         menCad.add(menCadUsuario);
 
+        MenCadLidCel.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.ALT_DOWN_MASK));
         MenCadLidCel.setText("Cad. Lider Célula");
         MenCadLidCel.setEnabled(false);
         MenCadLidCel.addActionListener(new java.awt.event.ActionListener() {
@@ -104,6 +105,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         menCad.add(MenCadLidCel);
 
+        menCadastroDados.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.ALT_DOWN_MASK));
         menCadastroDados.setText("Cad.  Dados Célula");
         menCadastroDados.setEnabled(false);
         menCadastroDados.addActionListener(new java.awt.event.ActionListener() {
@@ -113,6 +115,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         menCad.add(menCadastroDados);
 
+        menVisualizarDados.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.ALT_DOWN_MASK));
         menVisualizarDados.setText("Visualizar Dados");
         menVisualizarDados.setEnabled(false);
         menVisualizarDados.addActionListener(new java.awt.event.ActionListener() {
@@ -122,6 +125,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         menCad.add(menVisualizarDados);
 
+        menPorcentagem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.ALT_DOWN_MASK));
         menPorcentagem.setText("Porcentagem");
         menPorcentagem.setEnabled(false);
         menPorcentagem.addActionListener(new java.awt.event.ActionListener() {

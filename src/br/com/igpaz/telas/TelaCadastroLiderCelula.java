@@ -30,10 +30,9 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
         conexao = ModuloConexao.conector();
         this.pesquisa_avancada();
         this.populacmbTipoCel();
-      
+        this.setarColuna();
 
-        DefaultTableModel modelo = (DefaultTableModel) tblPastor.getModel();
-        tblPastor.setRowSorter(new TableRowSorter(modelo));
+     
 
         //Verifica data do sistema
         Date data = new Date();
@@ -49,9 +48,15 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
         lblDataFormatada.setText(format.format(dataInicial));
 
     }
-    
-    
-      public void populaCmbTipoCel() {
+
+    private void setarColuna() {
+        
+           DefaultTableModel modelo = (DefaultTableModel) tblPastor.getModel();
+        tblPastor.setRowSorter(new TableRowSorter(modelo));
+
+    }
+
+    private void populaCmbTipoCel() {
 
         String sql = "select distinct tipo_cel_rede from tbl_redes";
         try {
@@ -70,7 +75,7 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
 
     }
 
-    public void pesquisarId() {
+    private void pesquisarId() {
 
         String sql = "select * from tbl_redes where cod_lider_rede like ?";
         try {
@@ -390,7 +395,7 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
-        setTitle("Cadastro Pastor");
+        setTitle("Cadastro Lider");
         setPreferredSize(new java.awt.Dimension(740, 550));
 
         lblNome.setText("*Superv. Rede:");
@@ -674,8 +679,8 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
 
     private void tblPastorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPastorMouseClicked
         // Setar Campos
-
         setar_campos();
+        
     }//GEN-LAST:event_tblPastorMouseClicked
 
     private void btnAuterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAuterarActionPerformed

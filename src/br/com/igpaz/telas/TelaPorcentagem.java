@@ -12,6 +12,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import net.proteanit.sql.DbUtils;
 
 /**
@@ -34,11 +36,19 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
         //tblporcentagem.setRowSorter(new TableRowSorter(modelo));
         this.populaCmbRede();
         this.pesquisa_avancada();
+        //  this.setarColuna();
 
         Date data1 = new Date();
         DateFormat formatador = DateFormat.getDateInstance(DateFormat.SHORT);
         lblData.setText(formatador.format(data1));
         lblData.setForeground(Color.blue);
+
+    }
+
+    private void setarColuna() {
+
+        DefaultTableModel modelo = (DefaultTableModel) tblporcentagem.getModel();
+        tblporcentagem.setRowSorter(new TableRowSorter(modelo));
 
     }
 
@@ -109,7 +119,6 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
             Date dataInt = format.parse(databr1);
             DateFormat formatado = new SimpleDateFormat("yyyy/MM/dd");
             String DataFormatada = formatado.format(dataInt);
-            System.out.println(DataFormatada);
 
             pst = conexao.prepareStatement(sql);
 
@@ -130,7 +139,7 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null, "Campos obrigatórios");
 
             } else {
-                System.out.println(DataFormatada);
+
                 int adicionado = pst.executeUpdate();
 
                 if (adicionado > 0) {

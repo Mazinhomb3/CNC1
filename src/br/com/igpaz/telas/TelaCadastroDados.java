@@ -12,7 +12,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
-import jdk.nashorn.internal.runtime.StoredScript;
 
 public class TelaCadastroDados extends javax.swing.JInternalFrame {
 
@@ -34,6 +33,9 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
         lblData.setForeground(Color.red);
 
     }
+    
+    
+  
 
     public void autoCompNome() {
         String sql = "select distinct lider_cel_rede from tbl_redes ";

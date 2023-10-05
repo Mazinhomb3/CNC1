@@ -168,7 +168,6 @@ public class TelaLogin extends javax.swing.JFrame {
 
         jLabel3.setText("Estado do Bd.");
 
-        txtLogin.setText("mazinhobc3@gmail.com");
         txtLogin.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtLoginKeyPressed(evt);

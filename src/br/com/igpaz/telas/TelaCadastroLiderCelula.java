@@ -197,6 +197,8 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
             pst.setString(8, txtIdLider.getText().toUpperCase());
             pst.setString(9, lblDataFormatada.getText());
             pst.setString(10, cmbTipoCel.getSelectedItem().toString());
+            
+            
             if ((txtSupRede.getText().isEmpty() || txtCorRede.getText().isEmpty() || txtPrRede.getText().isEmpty() || txtDistrito.getText().isEmpty()
                     || txtArea.getText().isEmpty() || txtSetor.getText().isEmpty() || txtLider.getText().isEmpty() || txtIdLider.getText().isEmpty())) {
 

@@ -15,6 +15,7 @@ public class ModuloConexao {
         String password = "Fbcostame";
 
         try {
+            
             Class.forName(driver);
             conexao = DriverManager.getConnection(url, user, password);
             return conexao;

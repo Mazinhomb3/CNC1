@@ -25,6 +25,7 @@ public class TelaLogin extends javax.swing.JFrame {
         setIcon();
 
         conexao = ModuloConexao.conector();
+        this.popCmbEmail();
 
         //teste de conexao
         //System.out.println(conexao);
@@ -39,6 +40,31 @@ public class TelaLogin extends javax.swing.JFrame {
 
     @SuppressWarnings("empty-statement")
 
+    
+    private void popCmbEmail(){
+    
+    String sql = "Select email from cnc";
+    
+        try {
+            pst = conexao.prepareStatement(sql);
+            rs = pst.executeQuery();
+            
+            while (rs.next()) {
+                cmbEmail.addItem(rs.getString("email"));
+                
+            }
+        } catch (Exception e) {
+            
+            JOptionPane.showMessageDialog(null, e);
+            
+        }
+    
+    
+    
+    
+    }
+    
+    
     public void logar() {
 
         String password = txtSenha.getText();
@@ -60,7 +86,7 @@ public class TelaLogin extends javax.swing.JFrame {
             String senhahex = sb.toString();
 
             pst = conexao.prepareStatement(sql);
-            pst.setString(1, txtLogin.getText());
+            pst.setString(1, cmbEmail.getSelectedItem().toString());
             pst.setString(2, senhahex);
 
             rs = pst.executeQuery();
@@ -111,9 +137,9 @@ public class TelaLogin extends javax.swing.JFrame {
 
             } else {
                 JOptionPane.showMessageDialog(null, "Usuario ou Senha ivalidos ");
-                txtLogin.setText(null);
+               
                 txtSenha.setText(null);
-                txtLogin.requestFocus();
+                cmbEmail.requestFocus();
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
@@ -132,7 +158,7 @@ public class TelaLogin extends javax.swing.JFrame {
         txtSenha = new javax.swing.JPasswordField();
         lblStatus = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        txtLogin = new javax.swing.JTextField();
+        cmbEmail = new javax.swing.JComboBox<>();
 
         lblLogin.setText("jLabel4");
 
@@ -168,12 +194,6 @@ public class TelaLogin extends javax.swing.JFrame {
 
         jLabel3.setText("Estado do Bd.");
 
-        txtLogin.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtLoginKeyPressed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -195,24 +215,24 @@ public class TelaLogin extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addGap(14, 14, 14)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(txtSenha)
-                            .addComponent(txtLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(66, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cmbEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(cmbEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(21, 21, 21)
                         .addComponent(jLabel2))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
+                        .addGap(58, 58, 58)
                         .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -220,7 +240,7 @@ public class TelaLogin extends javax.swing.JFrame {
                         .addComponent(jLabel3)
                         .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(lblStatus))
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         setSize(new java.awt.Dimension(364, 186));
@@ -245,25 +265,6 @@ public class TelaLogin extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_txtSenhaKeyPressed
-
-    private void txtLoginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLoginKeyPressed
-        // TODO add your handling code here:
-        switch (evt.getKeyCode()) {
-            case KeyEvent.VK_TAB:
-                txtSenha.requestFocus();
-                break;
-            case KeyEvent.VK_ENTER:
-                txtSenha.requestFocus();
-                break;
-            default:
-                EventQueue.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-
-                    }
-                });
-        }
-    }//GEN-LAST:event_txtLoginKeyPressed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -298,12 +299,12 @@ public class TelaLogin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLogin;
+    private javax.swing.JComboBox<String> cmbEmail;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel lblLogin;
     private javax.swing.JLabel lblStatus;
-    private javax.swing.JTextField txtLogin;
     private javax.swing.JPasswordField txtSenha;
     // End of variables declaration//GEN-END:variables
 

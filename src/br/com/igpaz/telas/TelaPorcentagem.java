@@ -32,8 +32,7 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
         initComponents();
         conexao = ModuloConexao.conector();
 
-        //DefaultTableModel modelo = (DefaultTableModel) tblporcentagem.getModel();
-        //tblporcentagem.setRowSorter(new TableRowSorter(modelo));
+        
         this.populaCmbRede();
         this.pesquisa_avancada();
         //  this.setarColuna();
@@ -134,7 +133,7 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
             pst.setString(10, txtAtraz.getText());
             pst.setString(11, DataFormatada);
 
-            if (txtCE.getText().isEmpty() || txtCr.getText().isEmpty() || txtCf.getText().isEmpty() || txtEntregue.getText().isEmpty() || txtPorcent.getText().isEmpty() || txtAtraz.getText().isEmpty() || txtDate2.getText().isEmpty()) {
+            if (txtCE.getText().isEmpty() || txtCr.getText().isEmpty() || txtCf.getText().isEmpty() || txtEntregue.getText().isEmpty() || txtPorcent.getText().isEmpty() || txtAtraz.getText().isEmpty() || txtDate2.getText().replace("/", " ").isEmpty()) {
 
                 JOptionPane.showMessageDialog(null, "Campos obrigatórios");
 
@@ -152,7 +151,7 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
                     txtEntregue.setText(null);
                     txtPorcent.setText(null);
                     txtAtraz.setText(null);
-                    txtDate2.setText(null);
+                   
 
                     this.pesquisa_avancada();
 
@@ -664,6 +663,7 @@ public class TelaPorcentagem extends javax.swing.JInternalFrame {
     private void tblporcentagemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblporcentagemMouseClicked
         // TODO add your handling code here:
         setacampos();
+        setarColuna();
     }//GEN-LAST:event_tblporcentagemMouseClicked
 
 

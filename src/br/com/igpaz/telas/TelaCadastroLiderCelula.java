@@ -347,6 +347,36 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
         }
 
     }
+    
+    
+    
+       public void pesquisarDistrito() {
+
+        String sql = "select * from tbl_redes where distrito_rede like ?";
+        try {
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1, txtDistrito.getText() + "%");
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                txtSupRede.setText(rs.getString("superv_rede"));
+                txtCorRede.setText(rs.getString("cor_rede"));
+                txtPrRede.setText(rs.getString("pr_rede"));
+                txtDistrito.setText(rs.getString("distrito_rede"));
+                txtArea.setText(rs.getString("area_rede"));
+                txtSetor.setText(rs.getString("setor_rede"));
+                txtLider.setText(rs.getString("lider_cel_rede"));
+                txtIdLider.setText(rs.getString("cod_lider_rede"));
+                txtId.setText(rs.getString("id_rede"));
+
+            }
+
+        } catch (Exception e) {
+
+            JOptionPane.showMessageDialog(null, e);
+        }
+
+    }
+    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -762,6 +792,9 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
                 EventQueue.invokeLater(new Runnable() {
                     @Override
                     public void run() {
+                        String txt = txtLider.getText();
+                       // autoCompleteId(txt);
+                        //pesquisarId();
 
                     }
                 });

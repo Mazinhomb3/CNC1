@@ -133,14 +133,7 @@ public final class TelaVisualizar extends javax.swing.JInternalFrame {
 
         try {
 
-            /* SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-
-            String date = cmbDataIn.getSelectedItem().toString();
-            System.out.println(date);
-            Date date1 = format.parse(date);
-            DateFormat formatBR = new SimpleDateFormat("yyyy-MM-dd");
-            String dataFormatadaIn = formatBR.format(date1);
-             */
+           
             pst = conexao.prepareStatement(sql);
             // pst.setString(1, cmbCorRede.getSelectedItem().toString());
             // pst.setString(2, dataFormatadaIn);
@@ -157,10 +150,10 @@ public final class TelaVisualizar extends javax.swing.JInternalFrame {
     public void setacampos() {
         int setar = tblDados.getSelectedRow();
         txtId.setText(tblDados.getModel().getValueAt(setar, 0).toString());
-        txtMTC.setText(tblDados.getModel().getValueAt(setar, 3).toString());
-        txtMCP.setText(tblDados.getModel().getValueAt(setar, 4).toString());
-        txtCP.setText(tblDados.getModel().getValueAt(setar, 5).toString());
-        txtC.setText(tblDados.getModel().getValueAt(setar, 6).toString());
+        txtMTC.setText(tblDados.getModel().getValueAt(setar, 4).toString());
+        txtMCP.setText(tblDados.getModel().getValueAt(setar, 5).toString());
+        txtCP.setText(tblDados.getModel().getValueAt(setar, 6).toString());
+        txtC.setText(tblDados.getModel().getValueAt(setar, 7).toString());
         txtMDA.setText(tblDados.getModel().getValueAt(setar, 8).toString());
         txtGE.setText(tblDados.getModel().getValueAt(setar, 9).toString());
         txtOferta.setText(tblDados.getModel().getValueAt(setar, 10).toString());
@@ -239,6 +232,39 @@ public final class TelaVisualizar extends javax.swing.JInternalFrame {
         }
 
     }
+    
+    
+    private void deletar() {
+        if (txtId.getText().isEmpty()) {
+
+            JOptionPane.showMessageDialog(null, "Você não pode deletar um campo vazio. Click na tabela.");
+           
+        } else {
+
+            int confirma = JOptionPane.showConfirmDialog(null, "Tem certeza da remoção desse Cadastro.", "Atenção", JOptionPane.YES_NO_OPTION);
+            if (JOptionPane.YES_OPTION == confirma) {
+
+                String sql = "delete from tbl_dados where id_lider=?";
+
+                try {
+
+                    pst = conexao.prepareStatement(sql);
+                    pst.setString(1, txtId.getText());
+                    int apagado = pst.executeUpdate();
+                    if (apagado > 0) {
+                        JOptionPane.showMessageDialog(null, "Cadastro removido com sucesso.");
+
+                     
+                        this.pesquisa_avancada();
+
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e);
+                }
+
+            }
+        }
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -280,6 +306,7 @@ public final class TelaVisualizar extends javax.swing.JInternalFrame {
         btnPesquisar = new javax.swing.JButton();
         txtOferta = new javax.swing.JTextField();
         btnLimpar = new javax.swing.JButton();
+        btnDeletar = new javax.swing.JButton();
 
         lblData.setText("jLabel5");
 
@@ -360,6 +387,8 @@ public final class TelaVisualizar extends javax.swing.JInternalFrame {
             }
         });
 
+        txtMCP.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
         jLabel5.setText("MTC");
 
         jLabel6.setText("MCP");
@@ -374,11 +403,22 @@ public final class TelaVisualizar extends javax.swing.JInternalFrame {
 
         jLabel12.setText("TIPO");
 
+        txtMTC.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        txtCP.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        txtC.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        txtMDA.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+        txtGE.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
         txtId.setEditable(false);
 
         cmbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADULTO", "CRIANCA" }));
 
         txtDataTr.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
+        txtDataTr.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jLabel13.setText("GE's");
 
@@ -392,10 +432,21 @@ public final class TelaVisualizar extends javax.swing.JInternalFrame {
             }
         });
 
+        txtOferta.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
         btnLimpar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/igpaz/icones/pincel.gif"))); // NOI18N
         btnLimpar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLimparActionPerformed(evt);
+            }
+        });
+
+        btnDeletar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/igpaz/icones/delete.png"))); // NOI18N
+        btnDeletar.setToolTipText("Deletar");
+        btnDeletar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnDeletar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeletarActionPerformed(evt);
             }
         });
 
@@ -428,8 +479,10 @@ public final class TelaVisualizar extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(128, 128, 128)
+                        .addComponent(btnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(64, 64, 64)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
@@ -497,10 +550,11 @@ public final class TelaVisualizar extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblUsuariofinal)
                         .addGap(10, 10, 10)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnPesquisar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnAlterar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnLimpar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnDeletar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -577,9 +631,15 @@ public final class TelaVisualizar extends javax.swing.JInternalFrame {
         pesquisa();
     }//GEN-LAST:event_btnLimparActionPerformed
 
+    private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
+        // delete
+        deletar();
+    }//GEN-LAST:event_btnDeletarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlterar;
+    private javax.swing.JButton btnDeletar;
     private javax.swing.JButton btnLimpar;
     private javax.swing.JButton btnPesquisar;
     private javax.swing.JComboBox<String> cmbCorRede;

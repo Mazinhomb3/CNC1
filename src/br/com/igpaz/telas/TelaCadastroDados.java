@@ -138,7 +138,7 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
 
     }
 
-    public void Limpar() {
+    public void limpar() {
         txtId.setText(null);
         txtSupRede.setText(null);
         txtCorRede.setText(null);
@@ -773,7 +773,7 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
 
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
         // limpar
-        Limpar();
+        limpar();
 
     }//GEN-LAST:event_btnLimparActionPerformed
 

@@ -2,7 +2,6 @@ package br.com.igpaz.dal;
 
 import java.sql.*;
 import java.sql.DriverManager;
-import javax.swing.JOptionPane;
 
 public class ModuloConexao {
 
@@ -10,9 +9,8 @@ public class ModuloConexao {
     public static Connection conector() {
         java.sql.Connection conexao = null;
         String driver = "com.mysql.cj.jdbc.Driver";
-        //String url = "jdbc:mysql://192.168.10.10:3306/db_relatorios";
-        String url = "jdbc:mysql://192.168.10.10:3306/db_relatorios";
-        String user = "mazinho1";
+        String url = "jdbc:mysql://my-report.site:3306/myrepo89_db_relatorios";
+        String user = "myrepo89_my-report";
         String password = "Fbcostame$1";
 
         try {

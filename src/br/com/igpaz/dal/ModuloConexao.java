@@ -10,10 +10,10 @@ public class ModuloConexao {
     public static Connection conector() {
         java.sql.Connection conexao = null;
         String driver = "com.mysql.cj.jdbc.Driver";
-        //String url = "jdbc:mysql://38.50.58.96:3306/db_relatorios";
+        //String url = "jdbc:mysql://192.168.10.10:3306/db_relatorios";
         String url = "jdbc:mysql://192.168.10.10:3306/db_relatorios";
-        String user = "mazinho";
-        String password = "Fbcostame1";
+        String user = "mazinho1";
+        String password = "Fbcostame$1";
 
         try {
             

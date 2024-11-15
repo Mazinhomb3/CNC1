@@ -100,7 +100,54 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
         }
 
     }
+    
+        public void confirmaDataDados() {
 
+        String sql = "select * from tbl_dados where cod_lider_rede like ? and data_lider >= ? limit 5";
+        try {
+            
+                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                String date = txtConfirmaDataCadastro.getText().toString();
+                Date date1 = format.parse(date);
+                DateFormat formatBR = new SimpleDateFormat("yyyy-MM-dd");
+                String confirmadataformatada = formatBR.format(date1);
+                txtdataformatada.setText(confirmadataformatada);
+            
+            
+            pst = conexao.prepareStatement(sql);
+            pst.setString(1, txtIdLider.getText() + "%");
+            pst.setString(2, txtdataformatada.getText());
+            rs = pst.executeQuery();
+            while (rs.next()) {
+                txtdataformatada.setText(rs.getString("data_lider"));
+                
+            }
+            
+            if (conexao != null) {
+
+            lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/igpaz/icones/Green1.png")));
+            
+            txtIdLider.setText(null); 
+            
+            limpar();
+            } else {
+            lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/igpaz/icones/Red1.png")));
+        }
+
+        } catch (Exception e) {
+
+            JOptionPane.showMessageDialog(null, e);
+        }
+        
+    }
+        
+        
+        public void limparStatus() {
+             
+                lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/igpaz/icones/Red1.png")));
+           
+        }
+    
     public void pesquisarNome() {
 
         String sql = "select * from tbl_redes where lider_cel_rede like ?";
@@ -149,6 +196,7 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
         txtLider.setText(null);
         txtIdLider.setText(null);
         txtIdLider.setText(null);
+        txtdataformatada.setText(null);
 
     }
 
@@ -173,7 +221,7 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
                 + "oferta_celula, id_rede, digitador_lider, tipo_cel_dados) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ";
         try {
 
-            String databrasil = txtDataBrasil.getText();
+            String databrasil = txtDataBrasil1.getText();
             SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
             Date date1 = format.parse(databrasil);
             DateFormat formatBR = new SimpleDateFormat("yyyy-MM-dd");
@@ -278,11 +326,11 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
 
     private void compararDados() {
 
-        String sql = "select * from tbl_dados where cod_lider_rede = ?  and data_lider = ?";
+        String sql = "select * from tbl_dados where cod_lider_rede = ?  and data_lider = ? ";
 
         try {
 
-            if (txtIdLider.getText().isEmpty() || txtDataBrasil.getText().isEmpty()) {
+            if (txtIdLider.getText().isEmpty() || txtConfirmaDataCadastro.getText().isEmpty()) {
 
                 JOptionPane.showMessageDialog(null, "Campo Cod. célula Vazio!");
                 return;
@@ -290,7 +338,7 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
             } else {
 
                 SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-                String date = txtDataBrasil.getText().toString();
+                String date = txtConfirmaDataCadastro.getText().toString();
                 Date date1 = format.parse(date);
                 DateFormat formatBR = new SimpleDateFormat("yyyy-MM-dd");
                 String dataFormatadaIn = formatBR.format(date1);
@@ -373,10 +421,13 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
         lblTotalPres = new javax.swing.JLabel();
         cmbTipoCelDados = new javax.swing.JComboBox<>();
         jLabel18 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         txtOferta = new javax.swing.JFormattedTextField();
-        txtDataBrasil = new javax.swing.JFormattedTextField();
+        txtConfirmaDataCadastro = new javax.swing.JFormattedTextField();
+        txtDataBrasil1 = new javax.swing.JFormattedTextField();
+        lblDistrito6 = new javax.swing.JLabel();
+        lblStatus = new javax.swing.JLabel();
+        txtdataformatada = new javax.swing.JTextField();
 
         txtCodPastor.setEditable(false);
 
@@ -392,7 +443,7 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setTitle("Cadastro Pastor");
-        setPreferredSize(new java.awt.Dimension(740, 550));
+        setPreferredSize(new java.awt.Dimension(740, 548));
 
         btnLimpar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/igpaz/icones/pincel.gif"))); // NOI18N
         btnLimpar.setToolTipText("Limpar");
@@ -434,8 +485,13 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
                 btnPesquisarActionPerformed(evt);
             }
         });
+        btnPesquisar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnPesquisarKeyPressed(evt);
+            }
+        });
 
-        lblDistrito4.setText("*Cod. Célula:");
+        lblDistrito4.setText("Confirmar Dados:");
 
         txtIdLider.setForeground(new java.awt.Color(255, 0, 0));
         txtIdLider.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -510,7 +566,7 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
             }
         });
         jPanel1.add(cmbGes);
-        cmbGes.setBounds(170, 330, 50, 22);
+        cmbGes.setBounds(170, 330, 50, 24);
 
         jLabel11.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         jLabel11.setText("TOTAL DE PRESENTES");
@@ -523,13 +579,13 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
 
         cmbMtc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", " " }));
         jPanel1.add(cmbMtc);
-        cmbMtc.setBounds(50, 30, 60, 22);
+        cmbMtc.setBounds(50, 30, 60, 24);
         jPanel1.add(jSeparator3);
         jSeparator3.setBounds(40, 120, 200, 10);
 
         cmbMcp.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", " " }));
         jPanel1.add(cmbMcp);
-        cmbMcp.setBounds(50, 90, 60, 22);
+        cmbMcp.setBounds(50, 90, 60, 24);
 
         jLabel12.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         jLabel12.setText("Membros compromissados presentes");
@@ -543,7 +599,7 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
 
         cmbConvPres.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", " " }));
         jPanel1.add(cmbConvPres);
-        cmbConvPres.setBounds(50, 150, 60, 22);
+        cmbConvPres.setBounds(50, 150, 60, 24);
         jPanel1.add(jSeparator4);
         jSeparator4.setBounds(40, 240, 200, 10);
 
@@ -554,7 +610,7 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
             }
         });
         jPanel1.add(cmbCrianca);
-        cmbCrianca.setBounds(50, 210, 60, 22);
+        cmbCrianca.setBounds(50, 210, 60, 24);
 
         jLabel14.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         jLabel14.setText("Crianças");
@@ -563,15 +619,15 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
 
         cmbMda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", " " }));
         jPanel1.add(cmbMda);
-        cmbMda.setBounds(70, 330, 50, 22);
+        cmbMda.setBounds(70, 330, 50, 24);
 
         jLabel15.setText("MDA'S ");
         jPanel1.add(jLabel15);
-        jLabel15.setBounds(80, 310, 40, 16);
+        jLabel15.setBounds(80, 310, 40, 15);
 
         jLabel16.setText("GE'S");
         jPanel1.add(jLabel16);
-        jLabel16.setBounds(180, 310, 48, 16);
+        jLabel16.setBounds(180, 310, 48, 15);
         jPanel1.add(jSeparator5);
         jSeparator5.setBounds(40, 180, 200, 10);
 
@@ -598,8 +654,6 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
 
         jLabel18.setText("TIPO CÉLULA:");
 
-        jLabel9.setText("Oferta");
-
         jLabel17.setText("R$ ");
 
         txtOferta.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
@@ -610,10 +664,22 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
         });
 
         try {
-            txtDataBrasil.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+            txtConfirmaDataCadastro.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+
+        try {
+            txtDataBrasil1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        lblDistrito6.setText("*Cod. Célula:");
+
+        lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/igpaz/icones/Red1.png"))); // NOI18N
+
+        txtdataformatada.setText("data");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -627,39 +693,50 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
                         .addGap(183, 183, 183)
                         .addComponent(lblPrenchaCampos))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
+                        .addGap(60, 60, 60)
                         .addComponent(lblDistrito4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtIdLider, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel17)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtOferta, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(130, 130, 130)
-                                .addComponent(lblDistrito5))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(121, 121, 121)
-                                .addComponent(txtDataBrasil, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(6, 6, 6)
+                        .addComponent(txtConfirmaDataCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(151, 151, 151)
+                        .addComponent(txtDataBrasil1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(106, 106, 106)
+                        .addComponent(txtdataformatada, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(39, 39, 39)
-                                .addComponent(jLabel2)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtSupRede, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(41, 41, 41)
+                                .addGap(47, 47, 47)
                                 .addComponent(jLabel3)
-                                .addGap(18, 18, 18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtCorRede, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(53, 53, 53)
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtPrRede, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(60, 60, 60)
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtDistrito, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(72, 72, 72)
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtArea, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(69, 69, 69)
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtSetor, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(66, 66, 66)
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtLider, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(100, 100, 100)
                                 .addComponent(jLabel18)
-                                .addGap(6, 6, 6)
+                                .addGap(2, 2, 2)
                                 .addComponent(cmbTipoCelDados, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(70, 70, 70)
@@ -671,99 +748,105 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
                                 .addGap(10, 10, 10)
                                 .addComponent(btnDeletar, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(48, 48, 48)
+                                .addGap(37, 37, 37)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel5))
-                                .addGap(18, 18, 18)
+                                    .addComponent(lblDistrito6)
+                                    .addComponent(jLabel2))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtPrRede, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtDistrito, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(58, 58, 58)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(jLabel6)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(txtArea, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(jLabel8)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(txtLider, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(jLabel7)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(txtSetor, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGap(91, 91, 91)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(47, 47, 47))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(txtIdLider, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(35, 35, 35)
+                                        .addComponent(jLabel17)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtOferta, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(txtSupRede, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(18, 18, 18)
+                        .addComponent(lblStatus)
+                        .addGap(40, 40, 40)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(25, 25, 25)
+                                .addComponent(lblDistrito5))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblData)
+                    .addComponent(lblPrenchaCampos))
+                .addGap(14, 14, 14)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtDataBrasil1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtdataformatada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblData)
-                            .addComponent(lblPrenchaCampos))
-                        .addGap(31, 31, 31)
+                        .addGap(5, 5, 5)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(lblDistrito4)
-                                .addComponent(txtIdLider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel9)
-                                .addComponent(jLabel17))
-                            .addComponent(txtOferta, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addComponent(txtDataBrasil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblDistrito5)))
-                .addGap(13, 13, 13)
+                            .addComponent(lblDistrito4)
+                            .addComponent(txtConfirmaDataCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(1, 1, 1)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel17)
+                            .addComponent(txtIdLider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtOferta, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblDistrito6))
+                        .addGap(10, 10, 10)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtSupRede, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
-                        .addGap(11, 11, 11)
+                        .addGap(12, 12, 12)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtCorRede, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3))
-                        .addGap(11, 11, 11)
+                        .addGap(12, 12, 12)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtPrRede, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4))
-                        .addGap(11, 11, 11)
+                        .addGap(12, 12, 12)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtDistrito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5))
-                        .addGap(11, 11, 11)
+                        .addGap(12, 12, 12)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6))
-                        .addGap(11, 11, 11)
+                        .addGap(8, 8, 8)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtSetor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel7))
-                        .addGap(11, 11, 11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtLider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel8))
-                        .addGap(11, 11, 11)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cmbTipoCelDados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel18))
-                        .addGap(37, 37, 37)
+                        .addGap(12, 12, 12)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel18))
+                            .addComponent(cmbTipoCelDados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(35, 35, 35)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnAdicionar)
                             .addComponent(btnPesquisar)
                             .addComponent(btnLimpar)
                             .addComponent(btnDeletar)))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(lblStatus))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblDistrito5)
+                        .addGap(13, 13, 13)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
 
-        setBounds(0, 0, 740, 550);
+        setBounds(0, 0, 750, 547);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
@@ -780,7 +863,8 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
         // TODO add your handling code here:
 
-        pesquisar();
+        limparStatus();
+        limpar();
 
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
@@ -796,7 +880,7 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
                 break;
             case KeyEvent.VK_ENTER:
                 txtIdLider.setText(txtIdLider.getText());
-
+                confirmaDataDados();
                 break;
             default:
                 EventQueue.invokeLater(new Runnable() {
@@ -895,6 +979,11 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
         compararDados();
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
+    private void btnPesquisarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnPesquisarKeyPressed
+        limparStatus();
+          
+    }//GEN-LAST:event_btnPesquisarKeyPressed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionar;
@@ -925,7 +1014,6 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator1;
@@ -936,12 +1024,15 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblData;
     private javax.swing.JLabel lblDistrito4;
     private javax.swing.JLabel lblDistrito5;
+    private javax.swing.JLabel lblDistrito6;
     private javax.swing.JLabel lblPrenchaCampos;
+    private javax.swing.JLabel lblStatus;
     private javax.swing.JLabel lblTotalPres;
     private javax.swing.JTextField txtArea;
     private javax.swing.JTextField txtCodPastor;
+    private javax.swing.JFormattedTextField txtConfirmaDataCadastro;
     private javax.swing.JTextField txtCorRede;
-    private javax.swing.JFormattedTextField txtDataBrasil;
+    private javax.swing.JFormattedTextField txtDataBrasil1;
     private javax.swing.JTextField txtDateFormated;
     private javax.swing.JTextField txtDistrito;
     public static javax.swing.JTextField txtId;
@@ -952,5 +1043,6 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtPrRede;
     private javax.swing.JTextField txtSetor;
     private javax.swing.JTextField txtSupRede;
+    private javax.swing.JTextField txtdataformatada;
     // End of variables declaration//GEN-END:variables
 }

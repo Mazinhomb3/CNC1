@@ -48,7 +48,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 formWindowActivated(evt);
             }
         });
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         Desktop.setPreferredSize(new java.awt.Dimension(740, 550));
 
@@ -56,27 +55,22 @@ public class TelaPrincipal extends javax.swing.JFrame {
         Desktop.setLayout(DesktopLayout);
         DesktopLayout.setHorizontalGroup(
             DesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 740, Short.MAX_VALUE)
+            .addGap(0, 750, Short.MAX_VALUE)
         );
         DesktopLayout.setVerticalGroup(
             DesktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 520, Short.MAX_VALUE)
         );
 
-        getContentPane().add(Desktop, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, 740, 550));
-
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/igpaz/icones/logopazchurch120.png"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 30, -1, -1));
 
         lblData.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         lblData.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblData.setText("Data");
-        getContentPane().add(lblData, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 170, 120, -1));
 
         lblUsuario.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
         lblUsuario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblUsuario.setText("USUÁRIO");
-        getContentPane().add(lblUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 210, 114, 21));
 
         menCad.setText("Cadastro");
         menCad.addActionListener(new java.awt.event.ActionListener() {
@@ -166,7 +160,35 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         setJMenuBar(Menu);
 
-        setSize(new java.awt.Dimension(950, 618));
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(Desktop, javax.swing.GroupLayout.PREFERRED_SIZE, 750, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(lblData, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(jLabel1)
+                        .addGap(8, 8, 8)
+                        .addComponent(lblData)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Desktop, javax.swing.GroupLayout.PREFERRED_SIZE, 520, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(6, 6, 6))
+        );
+
+        setSize(new java.awt.Dimension(950, 586));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 

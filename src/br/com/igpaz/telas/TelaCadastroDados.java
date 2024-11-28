@@ -107,7 +107,7 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
         try {
             
                 SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-                String date = txtConfirmaDataCadastro.getText().toString();
+                String date = txtConfirmaDataCadastro.getText();
                 Date date1 = format.parse(date);
                 DateFormat formatBR = new SimpleDateFormat("yyyy-MM-dd");
                 String confirmadataformatada = formatBR.format(date1);
@@ -129,7 +129,7 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
             
             txtIdLider.setText(null); 
             
-            limpar();
+           
             } else {
             lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/igpaz/icones/Red1.png")));
         }
@@ -338,13 +338,13 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
             } else {
 
                 SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-                String date = txtConfirmaDataCadastro.getText().toString();
+                String date = txtConfirmaDataCadastro.getText();
                 Date date1 = format.parse(date);
                 DateFormat formatBR = new SimpleDateFormat("yyyy-MM-dd");
                 String dataFormatadaIn = formatBR.format(date1);
 
                 pst = conexao.prepareStatement(sql);
-                pst.setString(1, txtIdLider.getText().toString());
+                pst.setString(1, txtIdLider.getText());
                 pst.setString(2, dataFormatadaIn);
 
                 rs = pst.executeQuery();
@@ -857,6 +857,7 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
         // limpar
         limpar();
+        limparStatus();
 
     }//GEN-LAST:event_btnLimparActionPerformed
 
@@ -882,6 +883,10 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
                 txtIdLider.setText(txtIdLider.getText());
                 confirmaDataDados();
                 break;
+            case KeyEvent.VK_ESCAPE:
+                txtIdLider.setText(txtIdLider.getText());
+                limparStatus();
+                break;    
             default:
                 EventQueue.invokeLater(new Runnable() {
                     @Override

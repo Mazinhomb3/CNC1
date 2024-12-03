@@ -428,7 +428,7 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setTitle("Cadastro Lider");
-        setPreferredSize(new java.awt.Dimension(740, 550));
+        setPreferredSize(new java.awt.Dimension(740, 542));
 
         lblNome.setText("*Superv. Rede:");
 
@@ -578,9 +578,6 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
                         .addGap(339, 339, 339)
                         .addComponent(lblPrenchaCampos))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 720, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(253, 253, 253)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
@@ -630,7 +627,10 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
                                     .addComponent(txtSetor))
                                 .addComponent(txtLider, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(txtDistrito, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(2, 2, 2))
+                .addGap(163, 173, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -688,7 +688,7 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
                 .addGap(11, 11, 11))
         );
 
-        setBounds(0, 0, 740, 550);
+        setBounds(0, 0, 750, 542);
     }// </editor-fold>//GEN-END:initComponents
 
     private void tblPastorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPastorMouseClicked

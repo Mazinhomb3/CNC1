@@ -11,7 +11,7 @@ public class ModuloConexao {
        
         
          String driver = "com.mysql.cj.jdbc.Driver";
-        String url = "jdbc:mysql://localhost:3306/myrepo89_db_relatorios";
+        String url = "jdbc:mysql://localhost:3306/db_relatorios";
         String user = "root";
         String password = "";
 

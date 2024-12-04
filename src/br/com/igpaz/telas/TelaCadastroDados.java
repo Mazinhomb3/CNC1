@@ -33,9 +33,6 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
         lblData.setForeground(Color.red);
 
     }
-    
-    
-  
 
     public void autoCompNome() {
         String sql = "select distinct lider_cel_rede from tbl_redes ";
@@ -100,54 +97,51 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
         }
 
     }
-    
-        public void confirmaDataDados() {
+
+    public void confirmaDataDados() {
 
         String sql = "select * from tbl_dados where cod_lider_rede like ? and data_lider >= ? limit 5";
         try {
-            
-                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-                String date = txtConfirmaDataCadastro.getText();
-                Date date1 = format.parse(date);
-                DateFormat formatBR = new SimpleDateFormat("yyyy-MM-dd");
-                String confirmadataformatada = formatBR.format(date1);
-                txtdataformatada.setText(confirmadataformatada);
-            
-            
+
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            String date = txtConfirmaDataCadastro.getText();
+            Date date1 = format.parse(date);
+            DateFormat formatBR = new SimpleDateFormat("yyyy-MM-dd");
+            String confirmadataformatada = formatBR.format(date1);
+            txtdataformatada.setText(confirmadataformatada);
+
             pst = conexao.prepareStatement(sql);
-            pst.setString(1, txtIdLider.getText() + "%");
+            pst.setString(1, txtIdLider.getText());
             pst.setString(2, txtdataformatada.getText());
             rs = pst.executeQuery();
             while (rs.next()) {
                 txtdataformatada.setText(rs.getString("data_lider"));
-                
+
             }
-            
+
             if (conexao != null) {
 
-            lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/igpaz/icones/Green1.png")));
-            
-            txtIdLider.setText(null); 
-            
-           
+                lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/igpaz/icones/Green1.png")));
+
+                txtIdLider.setText(null);
+
             } else {
-            lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/igpaz/icones/Red1.png")));
-        }
+                lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/igpaz/icones/Red1.png")));
+            }
 
         } catch (Exception e) {
 
             JOptionPane.showMessageDialog(null, e);
         }
-        
+
     }
-        
-        
-        public void limparStatus() {
-             
-                lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/igpaz/icones/Red1.png")));
-           
-        }
-    
+
+    public void limparStatus() {
+
+        lblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/igpaz/icones/Red1.png")));
+
+    }
+
     public void pesquisarNome() {
 
         String sql = "select * from tbl_redes where lider_cel_rede like ?";
@@ -156,7 +150,6 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
             if (txtLider.getText().isEmpty()) {
 
                 JOptionPane.showMessageDialog(null, "Por favor digite um nome!");
-               
 
             } else {
 
@@ -886,7 +879,7 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
             case KeyEvent.VK_ESCAPE:
                 txtIdLider.setText(txtIdLider.getText());
                 limparStatus();
-                break;    
+                break;
             default:
                 EventQueue.invokeLater(new Runnable() {
                     @Override
@@ -986,7 +979,7 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
 
     private void btnPesquisarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnPesquisarKeyPressed
         limparStatus();
-          
+
     }//GEN-LAST:event_btnPesquisarKeyPressed
 
 

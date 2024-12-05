@@ -32,8 +32,6 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
         this.populacmbTipoCel();
         this.setarColuna();
 
-     
-
         //Verifica data do sistema
         Date data = new Date();
         DateFormat formatador = DateFormat.getDateInstance(DateFormat.SHORT);
@@ -50,8 +48,8 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
     }
 
     private void setarColuna() {
-        
-           DefaultTableModel modelo = (DefaultTableModel) tblPastor.getModel();
+
+        DefaultTableModel modelo = (DefaultTableModel) tblPastor.getModel();
         tblPastor.setRowSorter(new TableRowSorter(modelo));
 
     }
@@ -197,8 +195,7 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
             pst.setString(8, txtIdLider.getText().toUpperCase());
             pst.setString(9, lblDataFormatada.getText());
             pst.setString(10, cmbTipoCel.getSelectedItem().toString());
-            
-            
+
             if ((txtSupRede.getText().isEmpty() || txtCorRede.getText().isEmpty() || txtPrRede.getText().isEmpty() || txtDistrito.getText().isEmpty()
                     || txtArea.getText().isEmpty() || txtSetor.getText().isEmpty() || txtLider.getText().isEmpty() || txtIdLider.getText().isEmpty())) {
 
@@ -347,10 +344,8 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
         }
 
     }
-    
-    
-    
-       public void pesquisarDistrito() {
+
+    public void pesquisarDistrito() {
 
         String sql = "select * from tbl_redes where distrito_rede like ?";
         try {
@@ -376,7 +371,6 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
         }
 
     }
-    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -694,7 +688,7 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
     private void tblPastorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPastorMouseClicked
         // Setar Campos
         setar_campos();
-        
+
     }//GEN-LAST:event_tblPastorMouseClicked
 
     private void btnAuterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAuterarActionPerformed
@@ -793,7 +787,7 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
                     @Override
                     public void run() {
                         String txt = txtLider.getText();
-                       // autoCompleteId(txt);
+                        // autoCompleteId(txt);
                         //pesquisarId();
 
                     }

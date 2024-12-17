@@ -194,8 +194,11 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
         txtSetor.setText(null);
         txtLider.setText(null);
         txtIdLider.setText(null);
-        txtIdLider.setText(null);
         txtdataformatada.setText(null);
+        txtTm.setText(null);
+        txtMp.setText(null);
+        txtCp.setText(null);
+        txtCria.setText(null);
 
     }
 
@@ -556,7 +559,7 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
         jLabel10.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         jLabel10.setText("Total de Membros");
         jPanel1.add(jLabel10);
-        jLabel10.setBounds(50, 10, 87, 14);
+        jLabel10.setBounds(50, 10, 94, 13);
 
         cmbGes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", " " }));
         cmbGes.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -565,12 +568,12 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
             }
         });
         jPanel1.add(cmbGes);
-        cmbGes.setBounds(170, 330, 50, 22);
+        cmbGes.setBounds(170, 330, 50, 23);
 
         jLabel11.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         jLabel11.setText("TOTAL DE PRESENTES");
         jPanel1.add(jLabel11);
-        jLabel11.setBounds(50, 250, 120, 14);
+        jLabel11.setBounds(50, 250, 120, 13);
         jPanel1.add(jSeparator1);
         jSeparator1.setBounds(40, 240, 200, 0);
         jPanel1.add(jSeparator2);
@@ -581,31 +584,31 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
         jLabel12.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         jLabel12.setText("Membros Presentes");
         jPanel1.add(jLabel12);
-        jLabel12.setBounds(50, 70, 190, 14);
+        jLabel12.setBounds(50, 70, 190, 13);
 
         jLabel13.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         jLabel13.setText("Convidados Presentes");
         jPanel1.add(jLabel13);
-        jLabel13.setBounds(50, 130, 190, 14);
+        jLabel13.setBounds(50, 130, 190, 13);
         jPanel1.add(jSeparator4);
         jSeparator4.setBounds(40, 240, 200, 10);
 
         jLabel14.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         jLabel14.setText("Crianças");
         jPanel1.add(jLabel14);
-        jLabel14.setBounds(50, 190, 190, 14);
+        jLabel14.setBounds(50, 190, 190, 13);
 
         cmbMda.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", " " }));
         jPanel1.add(cmbMda);
-        cmbMda.setBounds(70, 330, 50, 22);
+        cmbMda.setBounds(70, 330, 50, 23);
 
         jLabel15.setText("MDA'S ");
         jPanel1.add(jLabel15);
-        jLabel15.setBounds(80, 310, 40, 16);
+        jLabel15.setBounds(80, 310, 40, 17);
 
         jLabel16.setText("GE'S");
         jPanel1.add(jLabel16);
-        jLabel16.setBounds(180, 310, 48, 16);
+        jLabel16.setBounds(180, 310, 48, 17);
         jPanel1.add(jSeparator5);
         jSeparator5.setBounds(40, 180, 200, 10);
 
@@ -634,13 +637,13 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
             }
         });
         jPanel1.add(txtCria);
-        txtCria.setBounds(50, 210, 60, 22);
+        txtCria.setBounds(50, 210, 60, 23);
         jPanel1.add(txtTm);
-        txtTm.setBounds(50, 30, 60, 22);
+        txtTm.setBounds(50, 30, 60, 23);
         jPanel1.add(txtMp);
-        txtMp.setBounds(50, 90, 60, 22);
+        txtMp.setBounds(50, 90, 60, 23);
         jPanel1.add(txtCp);
-        txtCp.setBounds(50, 150, 60, 22);
+        txtCp.setBounds(50, 150, 60, 23);
 
         cmbTipoCelDados.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADULTO", "CRIANCA" }));
 
@@ -888,27 +891,6 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_txtIdLiderKeyPressed
 
-    private void cmbGesKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cmbGesKeyPressed
-        // TODO add your handling code here:
-        switch (evt.getKeyCode()) {
-            case KeyEvent.VK_TAB:
-                somar();
-                compararDados();
-                break;
-            case KeyEvent.VK_ENTER:
-                somar();
-                compararDados();
-                break;
-            default:
-                EventQueue.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-
-                    }
-                });
-        }
-    }//GEN-LAST:event_cmbGesKeyPressed
-
     private void txtLiderKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLiderKeyPressed
         // TODO add your handling code here:
         switch (evt.getKeyCode()) {
@@ -932,7 +914,9 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
         // TODO add your handling code here:
+        somar();
         compararDados();
+        limpar();
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
     private void btnPesquisarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnPesquisarKeyPressed
@@ -948,10 +932,12 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         switch (evt.getKeyCode()) {
             case KeyEvent.VK_TAB:
-                somar();
+               
                 break;
             case KeyEvent.VK_ENTER:
                 somar();
+                compararDados();
+                limpar();
                 break;
             default:
                 EventQueue.invokeLater(new Runnable() {
@@ -962,6 +948,27 @@ public class TelaCadastroDados extends javax.swing.JInternalFrame {
                 });
         }
     }//GEN-LAST:event_txtCriaKeyPressed
+
+    private void cmbGesKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cmbGesKeyPressed
+        // TODO add your handling code here:
+        switch (evt.getKeyCode()) {
+            case KeyEvent.VK_TAB:
+            somar();
+            compararDados();
+            break;
+            case KeyEvent.VK_ENTER:
+            somar();
+            compararDados();
+            break;
+            default:
+            EventQueue.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+
+                }
+            });
+        }
+    }//GEN-LAST:event_cmbGesKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

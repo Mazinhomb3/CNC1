@@ -54,51 +54,6 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
 
     }
 
-    private void populaCmbTipoCel() {
-
-        String sql = "select distinct tipo_cel_rede from tbl_redes";
-        try {
-            pst = conexao.prepareStatement(sql);
-            rs = pst.executeQuery();
-            while (rs.next()) {
-
-                cmbTipoCel.addItem(rs.getString("tipo_cel_rede"));
-
-            }
-
-        } catch (Exception e) {
-
-            JOptionPane.showMessageDialog(null, e);
-        }
-
-    }
-
-    private void pesquisarId() {
-
-        String sql = "select * from tbl_redes where cod_lider_rede like ?";
-        try {
-            pst = conexao.prepareStatement(sql);
-            pst.setString(1, txtIdLider.getText() + "%");
-            rs = pst.executeQuery();
-            while (rs.next()) {
-                txtSupRede.setText(rs.getString("superv_rede"));
-                txtCorRede.setText(rs.getString("cor_rede"));
-                txtPrRede.setText(rs.getString("pr_rede"));
-                txtDistrito.setText(rs.getString("distrito_rede"));
-                txtArea.setText(rs.getString("area_rede"));
-                txtSetor.setText(rs.getString("setor_rede"));
-                txtLider.setText(rs.getString("lider_cel_rede"));
-                txtId.setText(rs.getString("id_rede"));
-
-            }
-
-        } catch (Exception e) {
-
-            JOptionPane.showMessageDialog(null, e);
-        }
-
-    }
-
     public void autoCompleteId(String txt) {
         String complete = "";
         int start = txt.length();
@@ -210,8 +165,10 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
                 if (adicionado > 0) {
 
                     JOptionPane.showMessageDialog(null, "Dados inseridos com sucesso.");
-                    txtId.setText(null);
+                    txtIdLider.setText(null);
                     txtLider.setText(null);
+                    
+                    txtLider.requestFocus();
 
                     this.pesquisa_avancada();
 
@@ -323,7 +280,7 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
         String sql = "select * from tbl_redes where cod_lider_rede like ?";
         try {
             pst = conexao.prepareStatement(sql);
-            pst.setString(1, txtIdLider.getText() + "%");
+            pst.setString(1, txtIdLider.getText());
             rs = pst.executeQuery();
             while (rs.next()) {
                 txtSupRede.setText(rs.getString("superv_rede"));
@@ -712,7 +669,7 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnLimparActionPerformed
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-        // TODO add your handling code here:
+//PESQUISAR
         pesquisar();
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
@@ -855,19 +812,20 @@ public class TelaCadastroLiderCelula extends javax.swing.JInternalFrame {
     private void txtIdLiderKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIdLiderKeyPressed
         // TODO add your handling code here:
         switch (evt.getKeyCode()) {
-            case KeyEvent.VK_BACK_SPACE:
+            case KeyEvent.VK_ESCAPE:
+                Limpar();
                 break;
             case KeyEvent.VK_ENTER:
-                txtLider.setText(txtLider.getText());
-                // txtNumero.requestFocus();
+                //txtLider.setText(txtLider.getText());
+                pesquisar();
                 break;
             default:
                 EventQueue.invokeLater(new Runnable() {
                     @Override
                     public void run() {
-                        String txt = txtLider.getText();
-                        autoCompleteId(txt);
-                        pesquisarId();
+                       // String txt = txtLider.getText();
+                        //autoCompleteId(txt);
+                        //pesquisarId();
                     }
                 });
         }
